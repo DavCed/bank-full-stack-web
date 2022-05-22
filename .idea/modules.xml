@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/accounts-micro/accounts-micro.iml" filepath="$PROJECT_DIR$/accounts-micro/accounts-micro.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bank-web/bank-web.iml" filepath="$PROJECT_DIR$/bank-web/bank-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka-server/eureka-server.iml" filepath="$PROJECT_DIR$/eureka-server/eureka-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/users-micro/users-micro.iml" filepath="$PROJECT_DIR$/users-micro/users-micro.iml" />
+    </modules>
+  </component>
+</project>
