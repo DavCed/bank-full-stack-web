@@ -22,4 +22,8 @@ export class UserService {
   loadUserProfileById(id: number): Observable<User>{
     return this.http.get<User>(`${environment.usersBackEndUrl}/getUser/${id}`);
   }
+
+  loadAllUsers(): Observable<UserResponse[]>{
+    return this.http.get<UserResponse[]>(`${environment.usersBackEndUrl}/getUsers`);
+  }
 }

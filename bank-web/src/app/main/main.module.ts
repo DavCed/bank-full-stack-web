@@ -11,6 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { LandingComponent } from './landing/landing.component';
 import { MainRoutingModule } from './main-routing.module';
 import { MainComponent } from './main.component';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { MainComponent } from './main.component';
     MatFormFieldModule,
     MatIconModule,
     MatButtonModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTableModule
   ]
 })
 export class MainModule {}

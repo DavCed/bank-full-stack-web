@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  usersBackEndUrl: 'http://localhost:8185/api/users'
+  usersBackEndUrl: 'http://localhost:8185/api/users',
+  accountsBackEndUrl: 'http://localhost:8186/api/accounts'
 };
 
 /*

@@ -26,7 +26,8 @@ export class LoginComponent implements OnInit {
   message: any;
   isSuccess: Boolean = false;
 
-  constructor(private userService: UserService, private router: Router) {
+  constructor(private userService: UserService,
+              private router: Router) {
     this.userForm = this.generateForm();
     this.displayLogin = true;
     this.btnText1 = 'Login';
