@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,6 +21,8 @@ public class AccountService {
     private AccountRepo accountRepo;
 
     public AccountResponse recordAccountInDB(Account account){
+        account.setAccountNumber(new Random().nextLong() + 99999999L);
+        account.setRoutingNumber(12345678901234L);
         String accountType = account.getAccountType() == 'C' ? "Checking" : "Savings";
         log.info("Attempting to open " + accountType + " account...");
         int count = (int) accountRepo.findAll().stream()
@@ -35,19 +38,42 @@ public class AccountService {
         }
         return AccountResponse.builder()
                 .accountNumber(account.getAccountNumber())
+                .userId(account.getUserId())
+                .routingNumber(account.getRoutingNumber())
+                .balance(account.getBalance())
+                .accountType(accountType)
                 .message(message)
                 .build();
     }
 
-    public List<Account> findAccountsByUserIdInDB(Integer userId){
-        log.info("ACCOUNTS FOUND BY USER ID: " + userId + ".");
+    public List<AccountResponse> findAccountsByUserIdInDB(Integer userId){
+        log.info("Searching for bank accounts for user by ID " + userId + "....");
         return accountRepo.findAll().stream()
                 .filter(account -> Objects.equals(account.getUserId(), userId))
+                .map(account ->
+                        AccountResponse.builder()
+                                .accountNumber(account.getAccountNumber())
+                                .userId(userId)
+                                .routingNumber(account.getRoutingNumber())
+                                .balance(account.getBalance())
+                                .accountType(account.getAccountType() == 'C' ? "Checking" : "Savings")
+                                .message("Users bank accounts retrieved.")
+                                .build())
                 .collect(Collectors.toList());
     }
 
-    public List<Account> findAllAccountsInDB(){
-        log.info("ACCOUNTS FOUND!");
-        return accountRepo.findAll();
+    public List<AccountResponse> findAllAccountsInDB(){
+        log.info("Fetching all bank accounts in system....");
+        return accountRepo.findAll().stream()
+                .map(account ->
+                        AccountResponse.builder()
+                                .accountNumber(account.getAccountNumber())
+                                .userId(account.getUserId())
+                                .routingNumber(account.getRoutingNumber())
+                                .balance(account.getBalance())
+                                .accountType(account.getAccountType() == 'C' ? "Checking" : "Savings")
+                                .message("All bank accounts retrieved.")
+                                .build())
+                .collect(Collectors.toList());
     }
 }

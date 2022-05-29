@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -37,6 +38,8 @@ public class UserService {
         return UserResponse.builder()
                 .email(user.getEmail())
                 .name(user.getFirstName() + " " + user.getLastName())
+                .userId(user.getId())
+                .userType(user.getUserType())
                 .message(message)
                 .build();
     }
@@ -61,21 +64,18 @@ public class UserService {
                 .build();
     }
 
-    public List<User> findAllUsersInDB(){
-        List<User> allUsersInDB = userRepo.findAll();
-        allUsersInDB.forEach(user -> {
-            String firstName = user.getFirstName().replace(
-                    user.getFirstName().charAt(0),
-                    Character.toUpperCase(user.getFirstName().charAt(0))
-            );
-            String lastName = user.getLastName().replace(
-                    user.getLastName().charAt(0),
-                    Character.toUpperCase(user.getLastName().charAt(0))
-            );
-            user.setFirstName(firstName);
-            user.setLastName(lastName);
-        });
-        return allUsersInDB;
+    public List<UserResponse> findAllUsersInDB(){
+        log.info("Fetching all users in system....");
+        return userRepo.findAll().stream()
+                .map(user ->
+                        UserResponse.builder()
+                                .userId(user.getId())
+                                .name(user.getFirstName() + " " + user.getLastName())
+                                .userType(user.getUserType())
+                                .email(user.getEmail())
+                                .message("All users retrieved.")
+                                .build())
+                .collect(Collectors.toList());
     }
 
     public Optional<User> findUserInDB(Integer id){

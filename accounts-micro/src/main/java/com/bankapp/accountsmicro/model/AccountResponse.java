@@ -9,5 +9,9 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class AccountResponse {
     private Long accountNumber;
+    private String accountType;
+    private Long routingNumber;
+    private double balance;
     private String message;
+    private Integer userId;
 }

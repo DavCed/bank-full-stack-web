@@ -23,10 +23,10 @@ public class Account {
     private Double balance;
 
     @Column(nullable = false, name = "account_number")
-    private Long accountNumber = new Random().nextLong() + 9999999999L;
+    private Long accountNumber;
 
     @Column(nullable = false, name = "routing_number")
-    private Long routingNumber = 1234567890123456L;
+    private Long routingNumber;
 
     @Column(nullable = false, name = "account_type")
     private Character accountType;

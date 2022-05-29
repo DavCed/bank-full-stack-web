@@ -30,7 +30,7 @@ public class ApiController {
     }
 
     @GetMapping("/getUsers")
-    public ResponseEntity<List<User>> retrieveAllUsers(){
+    public ResponseEntity<List<UserResponse>> retrieveAllUsers(){
         return ResponseEntity.ok(userService.findAllUsersInDB());
     }
 

@@ -24,12 +24,12 @@ public class ApiController {
     }
 
     @GetMapping("/getAccounts/{userId}")
-    public ResponseEntity<List<Account>> retrieveAccountsByUserId(@PathVariable("userId") Integer userId){
+    public ResponseEntity<List<AccountResponse>> retrieveAccountsByUserId(@PathVariable("userId") Integer userId){
         return ResponseEntity.ok(accountService.findAccountsByUserIdInDB(userId));
     }
 
     @GetMapping("/getAllAccounts")
-    public ResponseEntity<List<Account>> retrieveAllAccounts(){
+    public ResponseEntity<List<AccountResponse>> retrieveAllAccounts(){
         return ResponseEntity.ok(accountService.findAllAccountsInDB());
     }
 }
