@@ -2,7 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Account, AccountResponse } from '../model/account.interface';
+import {
+  Account,
+  AccountResponse,
+  Transaction,
+} from '../model/account.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -12,27 +16,27 @@ export class AccountService {
 
   saveAccount(account: Account): Observable<AccountResponse> {
     return this.http.post<AccountResponse>(
-      `${environment.accountsBackEndUrl}/addAccount`,
+      `${environment.accountsApiUrl}/addAccount`,
       account
     );
   }
 
   getAccountsByUserId(userId: number): Observable<AccountResponse[]> {
     return this.http.get<AccountResponse[]>(
-      `${environment.accountsBackEndUrl}/getAccounts/${userId}`
+      `${environment.accountsApiUrl}/getAccounts/${userId}`
     );
   }
 
   getAllAccounts(): Observable<AccountResponse[]> {
     return this.http.get<AccountResponse[]>(
-      `${environment.accountsBackEndUrl}/getAllAccounts`
+      `${environment.accountsApiUrl}/getAllAccounts`
     );
   }
 
-  updateAccount(details: string[]): Observable<AccountResponse> {
+  updateAccount(transactionObj: Transaction): Observable<AccountResponse> {
     return this.http.put<AccountResponse>(
-      `${environment.accountsBackEndUrl}/editAccount`,
-      details
+      `${environment.accountsApiUrl}/editAccount`,
+      transactionObj
     );
   }
 }

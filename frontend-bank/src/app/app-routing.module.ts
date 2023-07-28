@@ -7,15 +7,15 @@ const routes: Routes = [
     path: 'main',
     loadChildren: () => MainModule,
   },
-  { 
-    path: '', 
-    redirectTo: 'main/login', 
-    pathMatch: 'full'
-  }
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

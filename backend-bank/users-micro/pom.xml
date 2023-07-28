@@ -12,7 +12,7 @@
 	<artifactId>users-micro</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>users-micro</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Users micro app for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
 		<spring-cloud.version>2021.0.2</spring-cloud.version>
@@ -33,10 +33,6 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

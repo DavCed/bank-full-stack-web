@@ -1,0 +1,19 @@
+<br />
+<br />
+
+<div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20">
+  <h3>Welcome {{ name | titlecase }}!</h3>
+
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10">
+    <h5>Email: {{ email }}</h5>
+    <h5>User: {{ userType }}</h5>
+  </div>
+</div>
+
+<br />
+
+<div [ngSwitch]="showCustomerTable">
+  <app-customer-show *ngSwitchCase="true"></app-customer-show>
+
+  <app-employee-show *ngSwitchCase="false"></app-employee-show>
+</div>

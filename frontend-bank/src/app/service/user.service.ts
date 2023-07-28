@@ -12,27 +12,25 @@ export class UserService {
 
   saveUser(user: User): Observable<UserResponse> {
     return this.http.post<UserResponse>(
-      `${environment.usersBackEndUrl}/addUser`,
+      `${environment.usersApiUrl}/addUser`,
       user
     );
   }
 
   logUserIn(credentials: Credentials): Observable<UserResponse> {
     return this.http.post<UserResponse>(
-      `${environment.usersBackEndUrl}/checkUser`,
+      `${environment.usersApiUrl}/checkUser`,
       credentials
     );
   }
 
-  loadUserProfileById(id: number): Observable<UserResponse> {
+  getUserById(id: number): Observable<UserResponse> {
     return this.http.get<UserResponse>(
-      `${environment.usersBackEndUrl}/getUser/${id}`
+      `${environment.usersApiUrl}/getUser/${id}`
     );
   }
 
-  loadAllUsers(): Observable<UserResponse[]> {
-    return this.http.get<UserResponse[]>(
-      `${environment.usersBackEndUrl}/getUsers`
-    );
+  getAllUsers(): Observable<UserResponse[]> {
+    return this.http.get<UserResponse[]>(`${environment.usersApiUrl}/getUsers`);
   }
 }

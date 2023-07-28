@@ -2,12 +2,12 @@ package com.bankapp.accountsmicro.service;
 
 import com.bankapp.accountsmicro.entity.Account;
 import com.bankapp.accountsmicro.model.AccountResponse;
+import com.bankapp.accountsmicro.model.Transaction;
 import com.bankapp.accountsmicro.repo.AccountRepo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -79,16 +79,16 @@ public class AccountService {
                 .collect(Collectors.toList());
     }
 
-    public AccountResponse updateAccountInDB(List<String> details){
-        log.info(details.toString());
-        Account account = accountRepo.findByAccountNumber(Integer.parseInt(details.get(0))).get();
-        account.setBalance(details.get(2).equals(String.valueOf('W'))
-                ? account.getBalance() - Integer.parseInt(details.get(1))
-                : account.getBalance() + Integer.parseInt(details.get(1)));
+    public AccountResponse updateAccountInDB(Transaction transaction){
+        log.info(transaction.toString());
+        Account account = accountRepo.findByAccountNumber(Integer.parseInt(transaction.getAccount())).get();
+        account.setBalance(transaction.getTransactionType().equals(String.valueOf('W'))
+                ? account.getBalance() - transaction.getAmount()
+                : account.getBalance() + transaction.getAmount());
         Account accountDB = accountRepo.save(account);
         return AccountResponse.builder()
                 .userId(accountDB.getAccountId())
-                .accountType("Checking")
+                .accountType(accountDB.getAccountType() == 'C' ? "Checking" : "Savings")
                 .accountNumber(accountDB.getAccountNumber())
                 .routingNumber(accountDB.getRoutingNumber())
                 .balance(accountDB.getBalance())

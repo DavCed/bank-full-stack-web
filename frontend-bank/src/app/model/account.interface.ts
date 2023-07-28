@@ -18,6 +18,6 @@ export interface AccountResponse {
 
 export interface Transaction {
   amount: number;
-  transaction: string;
+  transactionType: string;
   account: string;
 }

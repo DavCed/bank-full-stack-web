@@ -1,0 +1,132 @@
+<div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15">
+  <table mat-table [dataSource]="dataSourceAccounts" class="mat-elevation-z8">
+    <tr mat-header-row *matHeaderRowDef="dataHeaders"></tr>
+    <tr mat-row *matRowDef="let row; columns: dataHeaders"></tr>
+
+    <ng-container matColumnDef="Account Type">
+      <th mat-header-cell *matHeaderCellDef>Account Type</th>
+      <td mat-cell *matCellDef="let account">{{ account.accountType }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Account Number">
+      <th mat-header-cell *matHeaderCellDef>Account Number</th>
+      <td mat-cell *matCellDef="let account">{{ account.accountNumber }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Routing Number">
+      <th mat-header-cell *matHeaderCellDef>Routing Number</th>
+      <td mat-cell *matCellDef="let account">{{ account.routingNumber }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Balance">
+      <th mat-header-cell *matHeaderCellDef>Balance</th>
+      <td mat-cell *matCellDef="let account">${{ account.balance }}</td>
+    </ng-container>
+  </table>
+
+  <br />
+  <br />
+
+  <div
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    fxLayoutGap="25"
+    *ngIf="!hasMaxAccounts"
+  >
+    <h3>Register an account</h3>
+
+    <h4 *ngIf="accountMessage.length > 0">{{ accountMessage }}</h4>
+
+    <form fxLayout="row" fxLayoutGap="20" [formGroup]="accountForm">
+      <mat-form-field>
+        <input
+          matInput
+          formControlName="balance"
+          type="number"
+          placeholder="Enter a starting balance"
+        />
+        <mat-error>Please enter a starting balance</mat-error>
+        <mat-hint>Ex. $100</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Select a account type</mat-label>
+        <mat-select matInput formControlName="accountType">
+          <mat-option
+            *ngFor="let accountType of accountTypes"
+            [value]="accountType.value"
+          >
+            {{ accountType.viewValue }}
+          </mat-option>
+        </mat-select>
+        <mat-error>Please select an account type</mat-error>
+      </mat-form-field>
+    </form>
+
+    <button
+      mat-raised-button
+      type="submit"
+      (click)="submitAccount(accountForm.value)"
+    >
+      Register Account
+    </button>
+  </div>
+
+  <div
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    fxLayoutGap="25"
+    *ngIf="hasMaxAccounts"
+  >
+    <h3>Make a transaction</h3>
+
+    <h4 *ngIf="transactionMessage.length > 0">{{ transactionMessage }}</h4>
+
+    <form fxLayout="row" fxLayoutGap="20" [formGroup]="transactionForm">
+      <mat-form-field>
+        <input
+          matInput
+          formControlName="amount"
+          type="number"
+          placeholder="Enter an amount"
+        />
+        <mat-error>Please enter an amount</mat-error>
+        <mat-hint>Ex. $100</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Select a transaction</mat-label>
+        <mat-select matInput formControlName="transactionType">
+          <mat-option
+            *ngFor="let transaction of transactionList"
+            [value]="transaction.value"
+          >
+            {{ transaction.viewValue }}
+          </mat-option>
+        </mat-select>
+        <mat-error>Please select a transaction</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Select an account</mat-label>
+        <mat-select matInput formControlName="account">
+          <mat-option
+            *ngFor="let accountType of accountTypes"
+            [value]="accountType.value"
+          >
+            {{ accountType.viewValue }}
+          </mat-option>
+        </mat-select>
+        <mat-error>Please select an account to transact</mat-error>
+      </mat-form-field>
+    </form>
+
+    <button
+      mat-raised-button
+      type="submit"
+      (click)="submitTransaction(transactionForm.value)"
+    >
+      Complete Transaction
+    </button>
+  </div>
+</div>

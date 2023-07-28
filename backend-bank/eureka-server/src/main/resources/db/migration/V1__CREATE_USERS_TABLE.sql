@@ -1,4 +1,4 @@
-CREATE TABLE user_profiles (
+CREATE TABLE users (
     id INTEGER,
     first_name VARCHAR(200),
     last_name VARCHAR(200),

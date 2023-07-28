@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LandingComponent } from './landing/landing.component';
-import { LoginComponent } from './login_signup/login.component';
+import { LandingComponent } from './landing-page/landing.component';
+import { LoginComponent } from './login-page/login.component';
 import { MainComponent } from './main.component';
+import { RegisterComponent } from './register-page/register.component';
 
 const routes: Routes = [
   {
@@ -11,18 +12,22 @@ const routes: Routes = [
     children: [
       {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
       },
       {
         path: 'landing-page/:id',
-        component: LandingComponent
-      }
-    ]
+        component: LandingComponent,
+      },
+      {
+        path: 'register',
+        component: RegisterComponent,
+      },
+    ],
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class MainRoutingModule {}

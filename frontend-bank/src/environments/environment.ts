@@ -2,10 +2,12 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { USERS_API_ENDPT, ACCOUNTS_API_ENDPT } from './endpoints';
+
 export const environment = {
   production: false,
-  usersBackEndUrl: 'http://localhost:8185/api/users',
-  accountsBackEndUrl: 'http://localhost:8186/api/accounts'
+  usersApiUrl: USERS_API_ENDPT,
+  accountsApiUrl: ACCOUNTS_API_ENDPT,
 };
 
 /*
