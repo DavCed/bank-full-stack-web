@@ -14,29 +14,31 @@ import {
 export class AccountService {
   constructor(private http: HttpClient) {}
 
-  saveAccount(account: Account): Observable<AccountResponse> {
+  saveBankAccount(account: Account): Observable<AccountResponse> {
     return this.http.post<AccountResponse>(
-      `${environment.accountsApiUrl}/addAccount`,
+      `${environment.accountsApiUrl}/addBankAccount`,
       account
     );
   }
 
-  getAccountsByUserId(userId: number): Observable<AccountResponse[]> {
+  fetchBankAccountsByUserId(
+    userId: string | null
+  ): Observable<AccountResponse[]> {
     return this.http.get<AccountResponse[]>(
-      `${environment.accountsApiUrl}/getAccounts/${userId}`
+      `${environment.accountsApiUrl}/getBankAccounts/${userId}`
     );
   }
 
-  getAllAccounts(): Observable<AccountResponse[]> {
+  fetchAllBankAccounts(): Observable<AccountResponse[]> {
     return this.http.get<AccountResponse[]>(
-      `${environment.accountsApiUrl}/getAllAccounts`
+      `${environment.accountsApiUrl}/getAllBankAccounts`
     );
   }
 
-  updateAccount(transactionObj: Transaction): Observable<AccountResponse> {
+  updateBankAccount(transaction: Transaction): Observable<AccountResponse> {
     return this.http.put<AccountResponse>(
-      `${environment.accountsApiUrl}/editAccount`,
-      transactionObj
+      `${environment.accountsApiUrl}/editBankAccount`,
+      transaction
     );
   }
 }

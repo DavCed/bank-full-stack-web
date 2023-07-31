@@ -11,22 +11,26 @@ export class LandingComponent implements OnInit {
   public userType: string = '';
   public name: string = '';
   public email: string = '';
-  private id: any;
+  private customerId: string | null = '';
   public showCustomerTable: boolean = false;
 
   constructor(
     private activeRoute: ActivatedRoute,
     private userService: UserService
   ) {
-    this.activeRoute.paramMap.subscribe((param) => (this.id = param.get('id')));
+    this.activeRoute.paramMap.subscribe(
+      (param) => (this.customerId = param.get('id'))
+    );
   }
 
   ngOnInit() {
-    this.userService.getUserById(this.id).subscribe((user) => {
+    this.userService.fetchUserById(this.customerId).subscribe((user) => {
       this.name = user.name;
       this.email = user.email;
-      this.userType = user.userType === 'E' ? 'Employee' : 'Customer';
-      if (this.userType === 'Customer') this.showCustomerTable = true;
+      if (user.userType === 'C') {
+        this.userType = 'Customer';
+        this.showCustomerTable = true;
+      } else this.userType = 'Employee';
     });
   }
 }

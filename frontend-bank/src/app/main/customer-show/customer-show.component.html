@@ -1,5 +1,10 @@
 <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15">
-  <table mat-table [dataSource]="dataSourceAccounts" class="mat-elevation-z8">
+  <table
+    aria-describedby="bank-accounts-table"
+    mat-table
+    [dataSource]="dataSourceAccounts"
+    class="mat-elevation-z8"
+  >
     <tr mat-header-row *matHeaderRowDef="dataHeaders"></tr>
     <tr mat-row *matRowDef="let row; columns: dataHeaders"></tr>
 
@@ -33,9 +38,9 @@
     fxLayoutGap="25"
     *ngIf="!hasMaxAccounts"
   >
-    <h3>Register an account</h3>
+    <h5 *ngIf="accountMessage.length > 0">{{ accountMessage }}</h5>
 
-    <h4 *ngIf="accountMessage.length > 0">{{ accountMessage }}</h4>
+    <h3>Register an account</h3>
 
     <form fxLayout="row" fxLayoutGap="20" [formGroup]="accountForm">
       <mat-form-field>
@@ -63,11 +68,7 @@
       </mat-form-field>
     </form>
 
-    <button
-      mat-raised-button
-      type="submit"
-      (click)="submitAccount(accountForm.value)"
-    >
+    <button mat-raised-button type="submit" (click)="submitBankAccount()">
       Register Account
     </button>
   </div>
@@ -78,9 +79,9 @@
     fxLayoutGap="25"
     *ngIf="hasMaxAccounts"
   >
-    <h3>Make a transaction</h3>
+    <h5 *ngIf="transactionMessage.length > 0">{{ transactionMessage }}</h5>
 
-    <h4 *ngIf="transactionMessage.length > 0">{{ transactionMessage }}</h4>
+    <h3>Make a transaction</h3>
 
     <form fxLayout="row" fxLayoutGap="20" [formGroup]="transactionForm">
       <mat-form-field>
@@ -98,10 +99,10 @@
         <mat-label>Select a transaction</mat-label>
         <mat-select matInput formControlName="transactionType">
           <mat-option
-            *ngFor="let transaction of transactionList"
-            [value]="transaction.value"
+            *ngFor="let transactionType of transactionTypes"
+            [value]="transactionType.value"
           >
-            {{ transaction.viewValue }}
+            {{ transactionType.viewValue }}
           </mat-option>
         </mat-select>
         <mat-error>Please select a transaction</mat-error>
@@ -109,7 +110,7 @@
 
       <mat-form-field>
         <mat-label>Select an account</mat-label>
-        <mat-select matInput formControlName="account">
+        <mat-select matInput formControlName="accountNumber">
           <mat-option
             *ngFor="let accountType of accountTypes"
             [value]="accountType.value"
@@ -121,11 +122,7 @@
       </mat-form-field>
     </form>
 
-    <button
-      mat-raised-button
-      type="submit"
-      (click)="submitTransaction(transactionForm.value)"
-    >
+    <button mat-raised-button type="submit" (click)="submitBankTransaction()">
       Complete Transaction
     </button>
   </div>

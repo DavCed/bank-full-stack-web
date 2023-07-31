@@ -12,15 +12,11 @@
         <module name="accounts-micro" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="user-micro" target="11" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="accounts-micro" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
-      <module name="user-micro" options="-parameters" />
       <module name="users-micro" options="-parameters" />
     </option>
   </component>

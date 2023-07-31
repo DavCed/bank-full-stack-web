@@ -3,33 +3,32 @@ package com.bankapp.usersmicro.entity;
 import lombok.*;
 import javax.persistence.*;
 
+@Data
 @Entity
-@Getter
-@Setter
-@ToString
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer userId;
 
-    @Column(nullable = false, name = "first_name")
+    @Column(nullable = false)
     private String firstName;
 
-    @Column(nullable = false, name = "last_name")
+    @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false, name = "email")
+    @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false, name = "password")
+    @Column(nullable = false)
     private String password;
 
-    @Column(name = "phone_number")
+    @Column
     private String phoneNumber;
 
-    @Column(nullable = false, name = "user_type")
+    @Column(nullable = false)
     private Character userType;
 }

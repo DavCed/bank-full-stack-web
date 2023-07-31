@@ -1,23 +1,23 @@
 export interface Account {
-  accountId?: number;
+  accountId: number;
   userId: number;
   balance: number;
   accountNumber: number;
-  routingNumber?: number;
+  routingNumber: number;
   accountType: string;
 }
 
 export interface AccountResponse {
-  accountNumber: number;
-  accountType: string;
-  routingNumber: number;
-  balance: number;
-  message: string;
   userId: number;
+  balance: number;
+  accountNumber: number;
+  routingNumber: number;
+  accountType: string;
+  message: string;
 }
 
 export interface Transaction {
   amount: number;
   transactionType: string;
-  account: string;
+  accountNumber: string;
 }

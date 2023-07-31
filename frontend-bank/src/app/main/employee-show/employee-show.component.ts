@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AccountResponse } from 'src/app/model/account.interface';
 import { UserResponse } from 'src/app/model/user.interface';
 import { AccountService } from 'src/app/service/account.service';
 import { UserService } from 'src/app/service/user.service';
@@ -28,31 +29,26 @@ export class EmployeeShowComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.fetchAllAccounts();
-  }
-
-  fetchAllAccounts() {
-    this.accountService.getAllAccounts().subscribe((accounts) => {
-      this.userService.getAllUsers().subscribe((users) => {
-        accounts.map((account) => {
-          users.map((user) => {
-            if (account.userId === user.userId) {
-              switch (account.accountType) {
-                case 'Checking':
-                  user.checkingAccount = account;
-                  this.customerCheckingAccounts.push(user);
-                  break;
-                case 'Savings':
-                  user.savingsAccount = account;
-                  this.customerSavingsAccounts.push(user);
-                  break;
-              }
-            }
-          });
+    this.accountService.fetchAllBankAccounts().subscribe((accounts) => {
+      this.userService.fetchAllUsers().subscribe((users) => {
+        accounts.forEach((account) => {
+          users.forEach((user) => this.setBankAccountToCustomer(account, user));
         });
         this.dataSourceCheck = this.customerCheckingAccounts;
         this.dataSourceSav = this.customerSavingsAccounts;
       });
     });
+  }
+
+  setBankAccountToCustomer(account: AccountResponse, user: UserResponse) {
+    if (account.userId === user.userId) {
+      if (account.accountType === 'Checking') {
+        user.checkingAccount = account;
+        this.customerCheckingAccounts.push(user);
+      } else if (account.accountType === 'Savings') {
+        user.savingsAccount = account;
+        this.customerSavingsAccounts.push(user);
+      }
+    }
   }
 }

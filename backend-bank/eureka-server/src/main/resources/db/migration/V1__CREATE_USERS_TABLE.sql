@@ -1,5 +1,5 @@
 CREATE TABLE users (
-    id INTEGER,
+    user_id INT,
     first_name VARCHAR(200),
     last_name VARCHAR(200),
     email VARCHAR(200),

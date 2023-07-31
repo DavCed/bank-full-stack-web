@@ -1,7 +1,7 @@
-import { Account, AccountResponse } from './account.interface';
+import { AccountResponse } from './account.interface';
 
 export interface User {
-  id?: number;
+  userId: number;
   firstName: string;
   lastName: string;
   email: string;

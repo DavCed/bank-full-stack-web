@@ -5,7 +5,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { AccountResponse, Transaction } from 'src/app/model/account.interface';
+import { AccountResponse } from 'src/app/model/account.interface';
 import { AccountService } from 'src/app/service/account.service';
 import { UserService } from 'src/app/service/user.service';
 
@@ -16,8 +16,8 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class CustomerShowComponent implements OnInit {
   private customerLoggedIn: any;
-  public hasMaxAccounts: any;
-  private id: any;
+  public hasMaxAccounts: boolean = false;
+  private customerId: string | null = '';
 
   public accountForm: UntypedFormGroup;
   public accountMessage: string = '';
@@ -28,12 +28,7 @@ export class CustomerShowComponent implements OnInit {
 
   public transactionForm: UntypedFormGroup;
   public transactionMessage: string = '';
-  private transactionObj: Transaction = {
-    account: '',
-    amount: 0,
-    transactionType: '',
-  };
-  public transactionList = [
+  public transactionTypes = [
     { value: 'W', viewValue: 'Withdraw' },
     { value: 'D', viewValue: 'Deposit' },
   ];
@@ -51,40 +46,33 @@ export class CustomerShowComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private userService: UserService
   ) {
-    this.activeRoute.paramMap.subscribe((param) => (this.id = param.get('id')));
+    this.activeRoute.paramMap.subscribe(
+      (param) => (this.customerId = param.get('id'))
+    );
     this.accountForm = this.generateAccountForm();
     this.transactionForm = this.generateTransactionForm();
   }
 
   ngOnInit(): void {
-    this.userService.getUserById(this.id).subscribe((customer) => {
+    this.userService.fetchUserById(this.customerId).subscribe((customer) => {
       this.customerLoggedIn = customer;
       this.accountService
-        .getAccountsByUserId(this.id)
-        .subscribe((customerAccounts) => {
-          customerAccounts.map((account) => {
-            switch (account.accountType) {
-              case 'Checking':
-                this.customerLoggedIn.checkingAccount = account;
-                break;
-              case 'Savings':
-                this.customerLoggedIn.savingsAccount = account;
-                break;
-            }
-          });
-          this.dataSourceAccounts = customerAccounts;
-          this.hasMaxAccounts =
-            this.dataSourceAccounts.length === 2 ? true : false;
+        .fetchBankAccountsByUserId(this.customerId)
+        .subscribe((accounts) => {
+          accounts.forEach((account) => this.setBankAccount(account));
+          this.dataSourceAccounts = accounts;
+          this.checkBankAccounts(this.dataSourceAccounts);
         });
     });
   }
 
   generateAccountForm() {
     return new UntypedFormGroup({
-      userId: new UntypedFormControl(this.id),
+      accountId: new UntypedFormControl(null),
+      userId: new UntypedFormControl(this.customerId),
       balance: new UntypedFormControl(null, Validators.required),
-      accountNumber: new UntypedFormControl(0),
-      routingNumber: new UntypedFormControl(0),
+      accountNumber: new UntypedFormControl(null),
+      routingNumber: new UntypedFormControl(null),
       accountType: new UntypedFormControl(null, Validators.required),
     });
   }
@@ -93,56 +81,73 @@ export class CustomerShowComponent implements OnInit {
     return new UntypedFormGroup({
       amount: new UntypedFormControl(null, Validators.required),
       transactionType: new UntypedFormControl(null, Validators.required),
-      account: new UntypedFormControl(null, Validators.required),
+      accountNumber: new UntypedFormControl(null, Validators.required),
     });
   }
 
-  submitAccount(accountForm: AccountResponse) {
-    accountForm.userId = this.id;
-    accountForm.message = '';
-    this.accountService
-      .saveAccount(accountForm)
-      .subscribe((response) => (this.accountMessage = response.message));
-    setTimeout(() => {
-      this.accountMessage = '';
-      window.location.reload();
-    }, 2000);
+  setBankAccount(account: AccountResponse) {
+    if (account.accountType === 'Checking')
+      this.customerLoggedIn.checkingAccount = account;
+    else if (account.accountType === 'Savings')
+      this.customerLoggedIn.savingsAccount = account;
   }
 
-  submitTransaction(transactionForm: Transaction) {
-    if (
-      transactionForm.amount !== null &&
-      transactionForm.transactionType !== null &&
-      transactionForm.account !== null
-    ) {
-      this.transactionObj = {
-        account:
-          transactionForm.account === 'C'
-            ? this.customerLoggedIn.checkingAccount.accountNumber.toString()
-            : this.customerLoggedIn.savingsAccount.accountNumber.toString(),
-        amount: transactionForm.amount,
-        transactionType: transactionForm.transactionType,
-      };
+  checkBankAccounts(accounts: AccountResponse[]) {
+    if (accounts.length !== 2) {
+      if (accounts.length === 1) {
+        this.accountTypes = [
+          accounts[0].accountType === 'Checking'
+            ? { value: 'S', viewValue: 'Savings' }
+            : { value: 'C', viewValue: 'Checking' },
+        ];
+      }
+    } else this.hasMaxAccounts = true;
+  }
+
+  submitBankAccount() {
+    if (this.accountForm.valid) {
+      this.accountService.saveBankAccount(this.accountForm.value).subscribe(
+        (account) => (this.accountMessage = account.message),
+        (errorResponse) => {
+          this.accountMessage = errorResponse.error.message;
+          this.accountForm.reset();
+        },
+        () => {
+          setTimeout(() => {
+            this.accountMessage = '';
+            window.location.reload();
+          }, 2000);
+        }
+      );
+    } else this.accountMessage = 'Please enter account details to register....';
+  }
+
+  submitBankTransaction() {
+    if (this.transactionForm.valid) {
+      this.transactionForm.controls['accountNumber'].setValue(
+        this.transactionForm.controls['accountNumber'].value === 'C'
+          ? this.customerLoggedIn.checkingAccount.accountNumber
+          : this.customerLoggedIn.savingsAccount.accountNumber
+      );
       this.accountService
-        .updateAccount(this.transactionObj)
-        .subscribe((account) => {
-          switch (account.accountType) {
-            case 'Checking':
-              this.customerLoggedIn.checkingAccount = account;
-              this.transactionMessage =
-                this.customerLoggedIn.checkingAccount.message;
-              break;
-            case 'Savings':
-              this.customerLoggedIn.savingsAccount = account;
-              this.transactionMessage =
-                this.customerLoggedIn.savingsAccount.message;
-              break;
+        .updateBankAccount(this.transactionForm.value)
+        .subscribe(
+          (account) => {
+            this.setBankAccount(account);
+            this.transactionMessage = account.message;
+          },
+          (errorResponse) => {
+            this.transactionMessage = errorResponse.error.message;
+            this.transactionForm.reset();
+          },
+          () => {
+            setTimeout(() => {
+              this.transactionMessage = '';
+              window.location.reload();
+            }, 2000);
           }
-        });
-      setTimeout(() => {
-        this.transactionMessage = '';
-        window.location.reload();
-      }, 2000);
-    }
+        );
+    } else
+      this.transactionMessage = 'Please enter transaction details to send....';
   }
 }

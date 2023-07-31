@@ -17,20 +17,22 @@ export class UserService {
     );
   }
 
-  logUserIn(credentials: Credentials): Observable<UserResponse> {
-    return this.http.post<UserResponse>(
-      `${environment.usersApiUrl}/checkUser`,
-      credentials
-    );
-  }
-
-  getUserById(id: number): Observable<UserResponse> {
+  fetchUserById(id: string | null): Observable<UserResponse> {
     return this.http.get<UserResponse>(
       `${environment.usersApiUrl}/getUser/${id}`
     );
   }
 
-  getAllUsers(): Observable<UserResponse[]> {
-    return this.http.get<UserResponse[]>(`${environment.usersApiUrl}/getUsers`);
+  fetchAllUsers(): Observable<UserResponse[]> {
+    return this.http.get<UserResponse[]>(
+      `${environment.usersApiUrl}/getAllUsers`
+    );
+  }
+
+  validateUser(credentials: Credentials): Observable<UserResponse> {
+    return this.http.post<UserResponse>(
+      `${environment.usersApiUrl}/checkUser`,
+      credentials
+    );
   }
 }

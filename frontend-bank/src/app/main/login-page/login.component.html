@@ -36,11 +36,7 @@
   </form>
 
   <div fxLayout="column" fxLayoutAlign="center center">
-    <button
-      mat-raised-button
-      type="submit"
-      (click)="attemptToLogin(loginForm.value.email, loginForm.value.password)"
-    >
+    <button mat-raised-button type="submit" (click)="attemptToLogin()">
       {{ loginBtn }}
     </button>
 

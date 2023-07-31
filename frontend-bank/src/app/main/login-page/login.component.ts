@@ -5,7 +5,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Credentials } from '../../model/user.interface';
 import { UserService } from '../../service/user.service';
 
 @Component({
@@ -15,11 +14,6 @@ import { UserService } from '../../service/user.service';
 })
 export class LoginComponent {
   public loginForm: UntypedFormGroup;
-  private credentials: Credentials = {
-    email: '',
-    password: '',
-  };
-
   public loginBtn: string = 'Login';
   public registerBtn: string = 'Register Now';
   public message: string = '';
@@ -51,19 +45,22 @@ export class LoginComponent {
     return this.isSuccess ? 'green' : 'red';
   }
 
-  attemptToLogin(email: string, password: string) {
-    this.credentials = {
-      email: email,
-      password: password,
-    };
-    this.userService.logUserIn(this.credentials).subscribe((user) => {
-      this.message = user.message;
-      if (user.message === 'Login successful!') {
-        this.isSuccess = true;
-        setTimeout(() => {
-          this.router.navigate([`landing-page/${user.userId}`]);
-        }, 1000);
-      }
-    });
+  attemptToLogin() {
+    if (this.loginForm.valid) {
+      this.userService.validateUser(this.loginForm.value).subscribe(
+        (user) => {
+          this.message = user.message;
+          this.isSuccess = true;
+          setTimeout(
+            () => this.router.navigate([`landing-page/${user.userId}`]),
+            2000
+          );
+        },
+        (errorResponse) => {
+          this.message = errorResponse.error.message;
+          this.loginForm.reset();
+        }
+      );
+    } else this.message = 'Please enter credentials to log in....';
   }
 }

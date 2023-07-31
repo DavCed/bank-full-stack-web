@@ -1,13 +1,4 @@
 package com.bankapp.usersmicro.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Credentials {
-    private String email;
-    private String password;
-}
+public record Credentials(String email,
+                          String password){}

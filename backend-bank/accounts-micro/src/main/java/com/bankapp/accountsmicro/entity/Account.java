@@ -3,30 +3,29 @@ package com.bankapp.accountsmicro.entity;
 import lombok.*;
 import javax.persistence.*;
 
+@Data
 @Entity
-@Getter
-@Setter
-@ToString
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "accounts")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer accountId;
 
-    @Column(nullable = false, name = "user_id")
+    @Column(nullable = false)
     private Integer userId;
 
-    @Column(nullable = false, name = "balance")
-    private Double balance;
-
-    @Column(nullable = false, name = "account_number")
+    @Column(nullable = false)
     private Integer accountNumber;
 
-    @Column(nullable = false, name = "routing_number")
+    @Column(nullable = false)
     private Long routingNumber;
 
-    @Column(nullable = false, name = "account_type")
+    @Column(nullable = false)
     private Character accountType;
+
+    @Column(nullable = false)
+    private Double balance;
 }

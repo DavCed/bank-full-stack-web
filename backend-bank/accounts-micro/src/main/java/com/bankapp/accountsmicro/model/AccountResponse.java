@@ -1,17 +1,15 @@
 package com.bankapp.accountsmicro.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.experimental.SuperBuilder;
+import lombok.*;
 
-@AllArgsConstructor
 @Data
-@SuperBuilder
+@Builder
+@AllArgsConstructor
 public class AccountResponse {
+    private Integer userId;
     private Integer accountNumber;
-    private String accountType;
     private Long routingNumber;
+    private String accountType;
     private double balance;
     private String message;
-    private Integer userId;
 }

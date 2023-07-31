@@ -1,16 +1,14 @@
 package com.bankapp.accountsmicro.controller;
 
-import com.bankapp.accountsmicro.entity.Account;
+import com.bankapp.accountsmicro.model.AccountDTO;
 import com.bankapp.accountsmicro.model.AccountResponse;
 import com.bankapp.accountsmicro.model.Transaction;
 import com.bankapp.accountsmicro.service.AccountService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@AllArgsConstructor
 @RestController
 @RequestMapping("${API_ACCOUNTS}")
 @CrossOrigin(origins = "${WEB_HOST}")
@@ -19,23 +17,23 @@ public class ApiController {
     @Autowired
     private AccountService accountService;
 
-    @PostMapping("/${SAVE_ACC}")
-    public ResponseEntity<AccountResponse> saveAccount(@RequestBody Account account){
-        return ResponseEntity.ok(accountService.recordAccountInDB(account));
+    @PostMapping("/addBankAccount")
+    public ResponseEntity<AccountResponse> saveBankAccount(@RequestBody AccountDTO accountDTO){
+        return ResponseEntity.ok(accountService.saveBankAccountInDB(accountDTO));
     }
 
-    @GetMapping("/${FETCH_ACC}/{userId}")
-    public ResponseEntity<List<AccountResponse>> retrieveAccountsByUserId(@PathVariable("userId") Integer userId){
-        return ResponseEntity.ok(accountService.findAccountsByUserIdInDB(userId));
+    @GetMapping("/getBankAccounts/{userId}")
+    public ResponseEntity<List<AccountResponse>> fetchBankAccountsByUserId(@PathVariable("userId") Integer userId){
+        return ResponseEntity.ok(accountService.fetchBankAccountsByUserIdInDB(userId));
     }
 
-    @GetMapping("/${FETCH_ALL}")
-    public ResponseEntity<List<AccountResponse>> retrieveAllAccounts(){
-        return ResponseEntity.ok(accountService.findAllAccountsInDB());
+    @GetMapping("/getAllBankAccounts")
+    public ResponseEntity<List<AccountResponse>> fetchAllBankAccounts(){
+        return ResponseEntity.ok(accountService.fetchAllBankAccountsInDB());
     }
 
-    @PutMapping("/${CHANGE_ACC}")
-    public ResponseEntity<AccountResponse> updateAccount(@RequestBody Transaction transaction){
-        return ResponseEntity.ok(accountService.updateAccountInDB(transaction));
+    @PutMapping("/editBankAccount")
+    public ResponseEntity<AccountResponse> updateBankAccount(@RequestBody Transaction transaction){
+        return ResponseEntity.ok(accountService.updateBankAccountInDB(transaction));
     }
 }
