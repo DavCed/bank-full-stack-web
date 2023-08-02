@@ -47,7 +47,9 @@ public class UserService {
 
     public UserResponse fetchUserByIdInDB(Integer userId) {
         log.info("Fetching user by user id " + userId + "....");
-        User userDB = userRepo.findById(userId).orElseThrow();
+        User userDB = userRepo.findById(userId).orElse(null);
+        if(userDB == null)
+            throw new NonExistentUserException("User does not exist....");
         return UserResponse.builder()
                 .userId(userDB.getUserId())
                 .name(userDB.getFirstName() + " " + userDB.getLastName())

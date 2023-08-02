@@ -5,6 +5,7 @@ export interface Account {
   accountNumber: number;
   routingNumber: number;
   accountType: string;
+  accountStatus: string;
 }
 
 export interface AccountResponse {
@@ -13,6 +14,7 @@ export interface AccountResponse {
   accountNumber: number;
   routingNumber: number;
   accountType: string;
+  accountStatus: string;
   message: string;
 }
 

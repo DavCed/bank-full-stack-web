@@ -32,8 +32,13 @@ public class ApiController {
         return ResponseEntity.ok(accountService.fetchAllBankAccountsInDB());
     }
 
-    @PutMapping("/editBankAccount")
-    public ResponseEntity<AccountResponse> updateBankAccount(@RequestBody Transaction transaction){
-        return ResponseEntity.ok(accountService.updateBankAccountInDB(transaction));
+    @PutMapping("/editBankAccountBalance")
+    public ResponseEntity<AccountResponse> updateBankAccountBalance(@RequestBody Transaction transaction){
+        return ResponseEntity.ok(accountService.updateBankAccountBalanceInDB(transaction));
+    }
+
+    @PutMapping("/editBankAccountStatus")
+    public ResponseEntity<AccountResponse> updateBankAccountStatus(@RequestBody AccountDTO accountDTO){
+        return ResponseEntity.ok(accountService.updateBankAccountStatusInDB(accountDTO));
     }
 }

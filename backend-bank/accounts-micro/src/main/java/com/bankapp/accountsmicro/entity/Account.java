@@ -28,4 +28,7 @@ public class Account {
 
     @Column(nullable = false)
     private Double balance;
+
+    @Column(nullable = false)
+    private Character accountStatus;
 }

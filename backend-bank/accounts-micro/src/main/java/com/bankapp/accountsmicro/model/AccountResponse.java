@@ -11,5 +11,6 @@ public class AccountResponse {
     private Long routingNumber;
     private String accountType;
     private double balance;
+    private String accountStatus;
     private String message;
 }

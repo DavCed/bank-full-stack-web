@@ -5,4 +5,5 @@ public record AccountDTO(Integer accountId,
                          Integer accountNumber,
                          Long routingNumber,
                          Character accountType,
-                         Double balance){}
+                         Double balance,
+                         Character accountStatus){}

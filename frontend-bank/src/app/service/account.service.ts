@@ -35,10 +35,19 @@ export class AccountService {
     );
   }
 
-  updateBankAccount(transaction: Transaction): Observable<AccountResponse> {
+  updateBankAccountBalance(
+    transaction: Transaction
+  ): Observable<AccountResponse> {
     return this.http.put<AccountResponse>(
-      `${environment.accountsApiUrl}/editBankAccount`,
+      `${environment.accountsApiUrl}/editBankAccountBalance`,
       transaction
+    );
+  }
+
+  updateBankAccountStatus(account: Account): Observable<AccountResponse> {
+    return this.http.put<AccountResponse>(
+      `${environment.accountsApiUrl}/editBankAccountStatus`,
+      account
     );
   }
 }

@@ -16,12 +16,17 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class CustomerShowComponent implements OnInit {
   private customerLoggedIn: any;
-  public hasMaxAccounts: boolean = false;
+  public showTransactionForm: boolean = false;
+  public showRegisterForm: boolean = false;
   private customerId: string | null = '';
 
   public accountForm: UntypedFormGroup;
   public accountMessage: string = '';
-  public accountTypes = [
+  public registerAccountTypes = [
+    { value: 'C', viewValue: 'Checking' },
+    { value: 'S', viewValue: 'Savings' },
+  ];
+  public transactionAccountTypes = [
     { value: 'C', viewValue: 'Checking' },
     { value: 'S', viewValue: 'Savings' },
   ];
@@ -33,12 +38,20 @@ export class CustomerShowComponent implements OnInit {
     { value: 'D', viewValue: 'Deposit' },
   ];
 
-  public dataSourceAccounts: AccountResponse[] = [];
-  public dataHeaders: string[] = [
+  public dataSourceApprovedAccounts: AccountResponse[] = [];
+  public dataSourcePendingAccounts: AccountResponse[] = [];
+  public dataHeaders1: string[] = [
     'Account Type',
     'Account Number',
     'Routing Number',
     'Balance',
+  ];
+  public dataHeaders2: string[] = [
+    'Account Type',
+    'Account Number',
+    'Routing Number',
+    'Balance',
+    'Account Status',
   ];
 
   constructor(
@@ -60,8 +73,16 @@ export class CustomerShowComponent implements OnInit {
         .fetchBankAccountsByUserId(this.customerId)
         .subscribe((accounts) => {
           accounts.forEach((account) => this.setBankAccount(account));
-          this.dataSourceAccounts = accounts;
-          this.checkBankAccounts(this.dataSourceAccounts);
+          this.dataSourceApprovedAccounts = accounts.filter(
+            (account) => account.accountStatus === 'Approved'
+          );
+          this.dataSourcePendingAccounts = accounts.filter(
+            (account) => account.accountStatus === 'Pending'
+          );
+          this.checkBankAccounts(
+            this.dataSourceApprovedAccounts,
+            this.dataSourcePendingAccounts
+          );
         });
     });
   }
@@ -74,6 +95,7 @@ export class CustomerShowComponent implements OnInit {
       accountNumber: new UntypedFormControl(null),
       routingNumber: new UntypedFormControl(null),
       accountType: new UntypedFormControl(null, Validators.required),
+      accountStatus: new UntypedFormControl(null),
     });
   }
 
@@ -86,22 +108,52 @@ export class CustomerShowComponent implements OnInit {
   }
 
   setBankAccount(account: AccountResponse) {
-    if (account.accountType === 'Checking')
-      this.customerLoggedIn.checkingAccount = account;
-    else if (account.accountType === 'Savings')
-      this.customerLoggedIn.savingsAccount = account;
+    if (account.accountStatus === 'Approved') {
+      if (account.accountType === 'Checking')
+        this.customerLoggedIn.checkingAccount = account;
+      else if (account.accountType === 'Savings')
+        this.customerLoggedIn.savingsAccount = account;
+    }
   }
 
-  checkBankAccounts(accounts: AccountResponse[]) {
-    if (accounts.length !== 2) {
-      if (accounts.length === 1) {
-        this.accountTypes = [
-          accounts[0].accountType === 'Checking'
-            ? { value: 'S', viewValue: 'Savings' }
-            : { value: 'C', viewValue: 'Checking' },
+  checkBankAccounts(
+    approvedAccounts: AccountResponse[],
+    pendingAccounts: AccountResponse[]
+  ) {
+    if (approvedAccounts.length > 0) {
+      this.showTransactionForm = true;
+      if (approvedAccounts.length === 1) {
+        this.transactionAccountTypes = [
+          approvedAccounts[0].accountType === 'Checking'
+            ? { value: 'C', viewValue: 'Checking' }
+            : { value: 'S', viewValue: 'Savings' },
         ];
       }
-    } else this.hasMaxAccounts = true;
+    }
+    if (
+      (pendingAccounts.length === 0 || pendingAccounts.length === 1) &&
+      approvedAccounts.length < 2
+    ) {
+      if (pendingAccounts.length === 0 && approvedAccounts.length === 1) {
+        this.showRegisterForm = true;
+        this.registerAccountTypes = [
+          approvedAccounts[0].accountType === 'Savings'
+            ? { value: 'C', viewValue: 'Checking' }
+            : { value: 'S', viewValue: 'Savings' },
+        ];
+      } else if (
+        pendingAccounts.length === 1 &&
+        approvedAccounts.length === 0
+      ) {
+        this.showRegisterForm = true;
+        this.registerAccountTypes = [
+          pendingAccounts[0].accountType === 'Savings'
+            ? { value: 'C', viewValue: 'Checking' }
+            : { value: 'S', viewValue: 'Savings' },
+        ];
+      } else if (pendingAccounts.length === 0 && approvedAccounts.length === 0)
+        this.showRegisterForm = true;
+    }
   }
 
   submitBankAccount() {
@@ -130,7 +182,7 @@ export class CustomerShowComponent implements OnInit {
           : this.customerLoggedIn.savingsAccount.accountNumber
       );
       this.accountService
-        .updateBankAccount(this.transactionForm.value)
+        .updateBankAccountBalance(this.transactionForm.value)
         .subscribe(
           (account) => {
             this.setBankAccount(account);
