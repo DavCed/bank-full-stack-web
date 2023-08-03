@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../service/user.service';
 
@@ -13,9 +9,9 @@ import { UserService } from '../../service/user.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  public loginForm: UntypedFormGroup;
+  public loginForm: FormGroup;
   public loginBtn: string = 'Login';
-  public registerBtn: string = 'Register Now';
+  public registerBtn: string = 'Sign up';
   public message: string = '';
   private isSuccess: boolean = false;
 
@@ -24,12 +20,12 @@ export class LoginComponent {
   }
 
   generateLoginForm() {
-    return new UntypedFormGroup({
-      email: new UntypedFormControl('', [
+    return new FormGroup({
+      email: new FormControl('', [
         Validators.required,
         Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
       ]),
-      password: new UntypedFormControl('', [
+      password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
       ]),

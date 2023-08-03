@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from 'src/app/service/user.service';
 import { Router } from '@angular/router';
 
@@ -13,9 +9,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
-  public registerForm: UntypedFormGroup;
-  public registerBtn: string = 'Register';
-  public loginBtn: string = 'Login Now';
+  public registerForm: FormGroup;
+  public registerBtn: string = 'Sign Up';
+  public loginBtn: string = 'Back to Login';
   public message: string = '';
   private isSuccess: boolean = false;
   public userTypes = [
@@ -28,28 +24,28 @@ export class RegisterComponent {
   }
 
   generateRegisterForm() {
-    return new UntypedFormGroup({
-      firstName: new UntypedFormControl(null, [
+    return new FormGroup({
+      firstName: new FormControl(null, [
         Validators.required,
         Validators.maxLength(26),
       ]),
-      lastName: new UntypedFormControl(null, [
+      lastName: new FormControl(null, [
         Validators.required,
         Validators.maxLength(26),
       ]),
-      email: new UntypedFormControl(null, [
+      email: new FormControl(null, [
         Validators.required,
         Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
       ]),
-      password: new UntypedFormControl(null, [
+      password: new FormControl(null, [
         Validators.required,
         Validators.minLength(8),
       ]),
-      phoneNumber: new UntypedFormControl(null, [
+      phoneNumber: new FormControl(null, [
         Validators.minLength(10),
         Validators.pattern('[0-9]{3}-[0-9]{3}-[0-9]{4}'),
       ]),
-      userType: new UntypedFormControl(null, [Validators.required]),
+      userType: new FormControl(null, [Validators.required]),
     });
   }
 

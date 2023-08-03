@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AccountResponse } from 'src/app/model/account.interface';
 import { AccountService } from 'src/app/service/account.service';
@@ -20,22 +16,22 @@ export class CustomerShowComponent implements OnInit {
   public showRegisterForm: boolean = false;
   private customerId: string | null = '';
 
-  public accountForm: UntypedFormGroup;
+  public accountForm: FormGroup;
   public accountMessage: string = '';
   public registerAccountTypes = [
     { value: 'C', viewValue: 'Checking' },
     { value: 'S', viewValue: 'Savings' },
   ];
-  public transactionAccountTypes = [
-    { value: 'C', viewValue: 'Checking' },
-    { value: 'S', viewValue: 'Savings' },
-  ];
 
-  public transactionForm: UntypedFormGroup;
+  public transactionForm: FormGroup;
   public transactionMessage: string = '';
   public transactionTypes = [
     { value: 'W', viewValue: 'Withdraw' },
     { value: 'D', viewValue: 'Deposit' },
+  ];
+  public transactionAccountTypes = [
+    { value: 'C', viewValue: 'Checking' },
+    { value: 'S', viewValue: 'Savings' },
   ];
 
   public dataSourceApprovedAccounts: AccountResponse[] = [];
@@ -88,22 +84,22 @@ export class CustomerShowComponent implements OnInit {
   }
 
   generateAccountForm() {
-    return new UntypedFormGroup({
-      accountId: new UntypedFormControl(null),
-      userId: new UntypedFormControl(this.customerId),
-      balance: new UntypedFormControl(null, Validators.required),
-      accountNumber: new UntypedFormControl(null),
-      routingNumber: new UntypedFormControl(null),
-      accountType: new UntypedFormControl(null, Validators.required),
-      accountStatus: new UntypedFormControl(null),
+    return new FormGroup({
+      accountId: new FormControl(null),
+      userId: new FormControl(this.customerId),
+      balance: new FormControl(null, Validators.required),
+      accountNumber: new FormControl(null),
+      routingNumber: new FormControl(null),
+      accountType: new FormControl(null, Validators.required),
+      accountStatus: new FormControl(null),
     });
   }
 
   generateTransactionForm() {
-    return new UntypedFormGroup({
-      amount: new UntypedFormControl(null, Validators.required),
-      transactionType: new UntypedFormControl(null, Validators.required),
-      accountNumber: new UntypedFormControl(null, Validators.required),
+    return new FormGroup({
+      amount: new FormControl(null, Validators.required),
+      transactionType: new FormControl(null, Validators.required),
+      accountNumber: new FormControl(null, Validators.required),
     });
   }
 
@@ -122,13 +118,11 @@ export class CustomerShowComponent implements OnInit {
   ) {
     if (approvedAccounts.length > 0) {
       this.showTransactionForm = true;
-      if (approvedAccounts.length === 1) {
-        this.transactionAccountTypes = [
-          approvedAccounts[0].accountType === 'Checking'
-            ? { value: 'C', viewValue: 'Checking' }
-            : { value: 'S', viewValue: 'Savings' },
-        ];
-      }
+      if (approvedAccounts.length === 1)
+        this.transactionAccountTypes = this.setAccountTypes(
+          approvedAccounts,
+          'Transaction'
+        );
     }
     if (
       (pendingAccounts.length === 0 || pendingAccounts.length === 1) &&
@@ -136,24 +130,36 @@ export class CustomerShowComponent implements OnInit {
     ) {
       if (pendingAccounts.length === 0 && approvedAccounts.length === 1) {
         this.showRegisterForm = true;
-        this.registerAccountTypes = [
-          approvedAccounts[0].accountType === 'Savings'
-            ? { value: 'C', viewValue: 'Checking' }
-            : { value: 'S', viewValue: 'Savings' },
-        ];
+        this.registerAccountTypes = this.setAccountTypes(
+          approvedAccounts,
+          'Register'
+        );
       } else if (
         pendingAccounts.length === 1 &&
         approvedAccounts.length === 0
       ) {
         this.showRegisterForm = true;
-        this.registerAccountTypes = [
-          pendingAccounts[0].accountType === 'Savings'
-            ? { value: 'C', viewValue: 'Checking' }
-            : { value: 'S', viewValue: 'Savings' },
-        ];
+        this.registerAccountTypes = this.setAccountTypes(
+          pendingAccounts,
+          'Register'
+        );
       } else if (pendingAccounts.length === 0 && approvedAccounts.length === 0)
         this.showRegisterForm = true;
     }
+  }
+
+  setAccountTypes(accounts: AccountResponse[], formType: string) {
+    return formType === 'Transaction'
+      ? [
+          accounts[0].accountType === 'Checking'
+            ? { value: 'C', viewValue: 'Checking' }
+            : { value: 'S', viewValue: 'Savings' },
+        ]
+      : [
+          accounts[0].accountType === 'Savings'
+            ? { value: 'C', viewValue: 'Checking' }
+            : { value: 'S', viewValue: 'Savings' },
+        ];
   }
 
   submitBankAccount() {

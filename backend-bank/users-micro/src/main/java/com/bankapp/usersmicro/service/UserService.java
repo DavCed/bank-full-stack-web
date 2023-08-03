@@ -1,5 +1,6 @@
 package com.bankapp.usersmicro.service;
 
+import static com.bankapp.usersmicro.UsersMicroApplication.encoder;
 import com.bankapp.usersmicro.exceptions.ExistentUserException;
 import com.bankapp.usersmicro.exceptions.NonExistentUserException;
 import com.bankapp.usersmicro.model.UserDTO;
@@ -20,9 +21,11 @@ public class UserService {
 
     @Autowired
     private UserRepo userRepo;
+    private static final String CUSTOMER = "Customer";
+    private static final String EMPLOYEE = "Employee";
 
     public UserResponse saveUserInDB(UserDTO userDTO){
-        log.info("Saving user by user id " + userDTO.userId() + "....");
+        log.info("Saving user as " + addUserType(userDTO.userType()).toLowerCase() + "....");
         User userDB = userRepo.findByEmail(userDTO.email()).orElse(null);
         if(userDB != null)
             throw new ExistentUserException("User already exists....");
@@ -31,7 +34,7 @@ public class UserService {
                 .firstName(userDTO.firstName())
                 .lastName(userDTO.lastName())
                 .email(userDTO.email())
-                .password(userDTO.password())
+                .password(encoder.encode(userDTO.password()))
                 .userType(userDTO.userType())
                 .phoneNumber(userDTO.phoneNumber())
                 .build();
@@ -76,9 +79,10 @@ public class UserService {
     public UserResponse validateUserInDB(Credentials credentials){
         log.info("Validating user credentials to log in....");
         User userDB = userRepo.findByEmail(credentials.email()).orElse(null);
-        if(userDB == null || (!userDB.getEmail().equals(credentials.email())
-                && !userDB.getPassword().equals(credentials.password())))
+        if(userDB == null)
             throw new NonExistentUserException("User does not exist....");
+        else if(!encoder.matches(credentials.password().trim(), userDB.getPassword()))
+            throw new NonExistentUserException("User entered wrong password....");
         return UserResponse.builder()
                 .userId(userDB.getUserId())
                 .name(userDB.getFirstName() + " " + userDB.getLastName())
@@ -86,5 +90,11 @@ public class UserService {
                 .userType(userDB.getUserType())
                 .message("Login successful!")
                 .build();
+    }
+
+    public String addUserType(Character userType){
+        return userType == 'C'
+                ? CUSTOMER
+                : EMPLOYEE;
     }
 }

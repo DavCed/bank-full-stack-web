@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { AccountResponse } from 'src/app/model/account.interface';
 import { UserResponse } from 'src/app/model/user.interface';
 import { AccountService } from 'src/app/service/account.service';
@@ -15,7 +11,7 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./employee-show.component.scss'],
 })
 export class EmployeeShowComponent implements OnInit {
-  public actionForm: UntypedFormGroup;
+  public actionForm: FormGroup;
 
   public customerCheckingAccounts: UserResponse[] = [];
   public customerSavingsAccounts: UserResponse[] = [];
@@ -26,14 +22,12 @@ export class EmployeeShowComponent implements OnInit {
   public dataSourcePendingSavingsAccounts: UserResponse[] = [];
   public dataHeaders1: string[] = [
     'Name',
-    'Email',
     'Account Number',
     'Routing Number',
     'Balance',
   ];
   public dataHeaders2: string[] = [
     'Name',
-    'Email',
     'Account Number',
     'Routing Number',
     'Balance',
@@ -55,38 +49,34 @@ export class EmployeeShowComponent implements OnInit {
         });
         this.dataSourceApprovedCheckingAccounts = this.setApprovedBankAccounts(
           this.customerCheckingAccounts,
-          'C',
-          []
+          'Checking'
         );
 
         this.dataSourceApprovedSavingsAccounts = this.setApprovedBankAccounts(
           this.customerSavingsAccounts,
-          'S',
-          []
+          'Savings'
         );
         this.dataSourcePendingCheckingAccounts = this.setPendingBankAccounts(
           this.customerCheckingAccounts,
-          'C',
-          []
+          'Checking'
         );
         this.dataSourcePendingSavingsAccounts = this.setPendingBankAccounts(
           this.customerSavingsAccounts,
-          'S',
-          []
+          'Savings'
         );
       });
     });
   }
 
-  generateActionForm(): UntypedFormGroup {
-    return new UntypedFormGroup({
-      accountId: new UntypedFormControl(null),
-      userId: new UntypedFormControl(null),
-      balance: new UntypedFormControl(null),
-      accountNumber: new UntypedFormControl(null),
-      routingNumber: new UntypedFormControl(null),
-      accountType: new UntypedFormControl(null),
-      accountStatus: new UntypedFormControl(null),
+  generateActionForm(): FormGroup {
+    return new FormGroup({
+      accountId: new FormControl(null),
+      userId: new FormControl(null),
+      balance: new FormControl(null),
+      accountNumber: new FormControl(null),
+      routingNumber: new FormControl(null),
+      accountType: new FormControl(null),
+      accountStatus: new FormControl(null),
     });
   }
 
@@ -102,40 +92,27 @@ export class EmployeeShowComponent implements OnInit {
     }
   }
 
-  setApprovedBankAccounts(
-    accounts: UserResponse[],
-    accountType: string,
-    approvedAccounts: UserResponse[]
-  ) {
-    (accountType === 'C'
+  setApprovedBankAccounts(accounts: UserResponse[], accountType: string) {
+    return accountType === 'Checking'
       ? accounts.filter(
           (customer) => customer.checkingAccount?.accountStatus === 'Approved'
         )
       : accounts.filter(
           (customer) => customer.savingsAccount?.accountStatus === 'Approved'
-        )
-    ).map((customer) => approvedAccounts.push(customer));
-    return approvedAccounts;
+        );
   }
 
-  setPendingBankAccounts(
-    accounts: UserResponse[],
-    accountType: string,
-    pendingAccounts: UserResponse[]
-  ) {
-    (accountType === 'C'
+  setPendingBankAccounts(accounts: UserResponse[], accountType: string) {
+    return accountType === 'Checking'
       ? accounts.filter(
           (customer) => customer.checkingAccount?.accountStatus === 'Pending'
         )
       : accounts.filter(
           (customer) => customer.savingsAccount?.accountStatus === 'Pending'
-        )
-    ).map((customer) => pendingAccounts.push(customer));
-    return pendingAccounts;
+        );
   }
 
   approveBankAccount(customer: UserResponse, account: AccountResponse) {
-    console.log(customer);
     this.actionForm.controls['accountNumber'].setValue(account.accountNumber);
     this.actionForm.controls['accountStatus'].setValue('A');
     this.actionForm.controls['userId'].setValue(customer.userId);
@@ -151,7 +128,6 @@ export class EmployeeShowComponent implements OnInit {
   }
 
   denyBankAccount(customer: UserResponse, account: AccountResponse) {
-    console.log(customer);
     this.actionForm.controls['accountNumber'].setValue(account.accountNumber);
     this.actionForm.controls['accountStatus'].setValue('D');
     this.actionForm.controls['userId'].setValue(customer.userId);
