@@ -56,9 +56,8 @@ public class AccountService {
 
     public List<AccountResponse> fetchBankAccountsByUserIdInDB(Integer userId){
         log.info("Fetching bank accounts for user id " + userId + "....");
-        List<Account> accountsDB = accountRepo.findAllByUserId(userId).orElse(null);
-        if(accountsDB == null)
-            throw new InvalidAccountException("No bank accounts exist for this user....");
+        List<Account> accountsDB = accountRepo.findAllByUserId(userId)
+                .orElseThrow(() -> new InvalidAccountException("No bank accounts exist for this user...."));
         return accountsDB.stream()
                 .map(accountFetched -> AccountResponse.builder()
                         .userId(accountFetched.getUserId())
@@ -90,13 +89,11 @@ public class AccountService {
 
     public AccountResponse updateBankAccountBalanceInDB(Transaction transaction){
         log.info("Making transaction on bank account for $" + transaction.amount() + "....");
-        Account accountDB = accountRepo.findByAccountNumber(transaction.accountNumber()).orElse(null);
-        if(accountDB == null)
-            throw new InvalidAccountException("Bank account does not exist....");
-        else if (transaction.amount() <= 0)
+        Account accountDB = accountRepo.findByAccountNumber(transaction.accountNumber())
+                .orElseThrow(() -> new InvalidAccountException("Bank account does not exist...."));
+        if (transaction.amount() <= 0)
             throw new InvalidTransactionException("Cannot make transaction of zero or negative amount....");
-        else if (transaction.transactionType() == 'W'
-                && transaction.amount() > accountDB.getBalance())
+        else if (transaction.transactionType() == 'W' && transaction.amount() > accountDB.getBalance())
             throw new InvalidTransactionException("Cannot withdraw more than current balance....");
         accountDB.setBalance(transaction.transactionType() == 'W'
                 ? accountDB.getBalance() - transaction.amount()
@@ -115,10 +112,9 @@ public class AccountService {
 
     public AccountResponse updateBankAccountStatusInDB(AccountDTO accountDTO) {
         log.info("Changing bank account status on user id " + accountDTO.userId() + "....");
-        Account accountDB = accountRepo.findByAccountNumber(accountDTO.accountNumber()).orElse(null);
-        if(accountDB == null)
-            throw new InvalidAccountException("Bank account does not exist....");
-        else if(accountDTO.accountStatus() == 'D') {
+        Account accountDB = accountRepo.findByAccountNumber(accountDTO.accountNumber())
+                .orElseThrow(() -> new InvalidAccountException("Bank account does not exist...."));
+        if(accountDTO.accountStatus() == 'D') {
             accountRepo.delete(accountDB);
             return AccountResponse.builder()
                     .message("Bank account denied....")

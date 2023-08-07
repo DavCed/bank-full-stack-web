@@ -26,17 +26,16 @@ public class UserService {
 
     public UserResponse saveUserInDB(UserDTO userDTO){
         log.info("Saving user as " + addUserType(userDTO.userType()).toLowerCase() + "....");
-        User userDB = userRepo.findByEmail(userDTO.email()).orElse(null);
-        if(userDB != null)
-            throw new ExistentUserException("User already exists....");
+        User userDB = userRepo.findByEmail(userDTO.email())
+                .orElseThrow(() -> new ExistentUserException("User already exists...."));
         User user = User.builder()
-                .userId(userDTO.userId())
-                .firstName(userDTO.firstName())
-                .lastName(userDTO.lastName())
-                .email(userDTO.email())
-                .password(encoder.encode(userDTO.password()))
-                .userType(userDTO.userType())
-                .phoneNumber(userDTO.phoneNumber())
+                .userId(userDB.getUserId())
+                .firstName(userDB.getFirstName())
+                .lastName(userDB.getLastName())
+                .email(userDB.getEmail())
+                .password(encoder.encode(userDB.getPassword()))
+                .userType(userDB.getUserType())
+                .phoneNumber(userDB.getPhoneNumber())
                 .build();
         User userCreated = userRepo.save(user);
         return UserResponse.builder()
@@ -50,9 +49,8 @@ public class UserService {
 
     public UserResponse fetchUserByIdInDB(Integer userId) {
         log.info("Fetching user by user id " + userId + "....");
-        User userDB = userRepo.findById(userId).orElse(null);
-        if(userDB == null)
-            throw new NonExistentUserException("User does not exist....");
+        User userDB = userRepo.findById(userId)
+                .orElseThrow(() -> new NonExistentUserException("User does not exist...."));
         return UserResponse.builder()
                 .userId(userDB.getUserId())
                 .name(userDB.getFirstName() + " " + userDB.getLastName())
@@ -78,10 +76,9 @@ public class UserService {
 
     public UserResponse validateUserInDB(Credentials credentials){
         log.info("Validating user credentials to log in....");
-        User userDB = userRepo.findByEmail(credentials.email()).orElse(null);
-        if(userDB == null)
-            throw new NonExistentUserException("User does not exist....");
-        else if(!encoder.matches(credentials.password().trim(), userDB.getPassword()))
+        User userDB = userRepo.findByEmail(credentials.email())
+                .orElseThrow(() -> new NonExistentUserException("User does not exist...."));
+        if(!encoder.matches(credentials.password().trim(), userDB.getPassword()))
             throw new NonExistentUserException("User entered wrong password....");
         return UserResponse.builder()
                 .userId(userDB.getUserId())
