@@ -20,22 +20,22 @@ import java.util.List;
 public class UserService {
 
     @Autowired
-    private UserRepo userRepo;
+    UserRepo userRepo;
     private static final String CUSTOMER = "Customer";
     private static final String EMPLOYEE = "Employee";
 
     public UserResponse saveUserInDB(UserDTO userDTO){
         log.info("Saving user as " + addUserType(userDTO.userType()).toLowerCase() + "....");
-        User userDB = userRepo.findByEmail(userDTO.email())
-                .orElseThrow(() -> new ExistentUserException("User already exists...."));
+        if(userRepo.findByEmail(userDTO.email()).isPresent())
+            throw new ExistentUserException("User already exists....");
         User user = User.builder()
-                .userId(userDB.getUserId())
-                .firstName(userDB.getFirstName())
-                .lastName(userDB.getLastName())
-                .email(userDB.getEmail())
-                .password(encoder.encode(userDB.getPassword()))
-                .userType(userDB.getUserType())
-                .phoneNumber(userDB.getPhoneNumber())
+                .userId(userDTO.userId())
+                .firstName(userDTO.firstName())
+                .lastName(userDTO.lastName())
+                .email(userDTO.email())
+                .password(encoder.encode(userDTO.password()))
+                .userType(userDTO.userType())
+                .phoneNumber(userDTO.phoneNumber())
                 .build();
         User userCreated = userRepo.save(user);
         return UserResponse.builder()

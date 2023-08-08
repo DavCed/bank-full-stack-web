@@ -18,13 +18,13 @@ import java.util.Random;
 public class AccountService {
 
     @Autowired
-    private AccountRepo accountRepo;
-    private static final String CHECKING ="Checking";
-    private static final String SAVINGS ="Savings";
-    private static final String APPROVED = "Approved";
-    private static final String DENIED = "Denied";
-    private static final String PENDING = "Pending";
-    private static final Random rand = new Random();
+    AccountRepo accountRepo;
+    static final String CHECKING ="Checking";
+    static final String SAVINGS ="Savings";
+    static final String APPROVED = "Approved";
+    static final String DENIED = "Denied";
+    static final String PENDING = "Pending";
+    static final Random rand = new Random();
 
     public AccountResponse saveBankAccountInDB(AccountDTO accountDTO){
         log.info("Opening bank account for user id " + accountDTO.userId() + "....");
@@ -42,13 +42,13 @@ public class AccountService {
         account.setAccountNumber(accNum < 0 ? -(accNum) : accNum);
         account.setRoutingNumber(9876543210L);
         account.setAccountStatus('P');
-        Account accountDB = accountRepo.save(account);
+        accountRepo.saveAndFlush(account);
         return AccountResponse.builder()
-                .userId(accountDB.getUserId())
-                .accountNumber(accountDB.getAccountNumber())
-                .routingNumber(accountDB.getRoutingNumber())
-                .accountType(addAccountType(accountDB.getAccountType()))
-                .balance(accountDB.getBalance())
+                .userId(account.getUserId())
+                .accountNumber(account.getAccountNumber())
+                .routingNumber(account.getRoutingNumber())
+                .accountType(addAccountType(account.getAccountType()))
+                .balance(account.getBalance())
                 .accountStatus(PENDING)
                 .message("Bank account opened!")
                 .build();
@@ -98,14 +98,14 @@ public class AccountService {
         accountDB.setBalance(transaction.transactionType() == 'W'
                 ? accountDB.getBalance() - transaction.amount()
                 : accountDB.getBalance() + transaction.amount());
-        Account accountUpdated = accountRepo.save(accountDB);
+        accountRepo.saveAndFlush(accountDB);
         return AccountResponse.builder()
-                .userId(accountUpdated.getUserId())
-                .accountNumber(accountUpdated.getAccountNumber())
-                .routingNumber(accountUpdated.getRoutingNumber())
-                .accountType(addAccountType(accountUpdated.getAccountType()))
-                .balance(accountUpdated.getBalance())
-                .accountStatus(addAccountStatus(accountUpdated.getAccountStatus()))
+                .userId(accountDB.getUserId())
+                .accountNumber(accountDB.getAccountNumber())
+                .routingNumber(accountDB.getRoutingNumber())
+                .accountType(addAccountType(accountDB.getAccountType()))
+                .balance(accountDB.getBalance())
+                .accountStatus(addAccountStatus(accountDB.getAccountStatus()))
                 .message("Transaction complete!")
                 .build();
     }
@@ -121,14 +121,14 @@ public class AccountService {
                     .build();
         }
         accountDB.setAccountStatus(accountDTO.accountStatus());
-        Account accountUpdated = accountRepo.save(accountDB);
+        accountRepo.saveAndFlush(accountDB);
         return AccountResponse.builder()
-                .userId(accountUpdated.getUserId())
-                .accountNumber(accountUpdated.getAccountNumber())
-                .routingNumber(accountUpdated.getRoutingNumber())
-                .accountType(addAccountType(accountUpdated.getAccountType()))
-                .balance(accountUpdated.getBalance())
-                .accountStatus(addAccountStatus(accountUpdated.getAccountStatus()))
+                .userId(accountDB.getUserId())
+                .accountNumber(accountDB.getAccountNumber())
+                .routingNumber(accountDB.getRoutingNumber())
+                .accountType(addAccountType(accountDB.getAccountType()))
+                .balance(accountDB.getBalance())
+                .accountStatus(addAccountStatus(accountDB.getAccountStatus()))
                 .message("Bank account approved!")
                 .build();
     }

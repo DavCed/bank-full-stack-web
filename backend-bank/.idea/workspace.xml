@@ -5,19 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cae386ed-837d-4439-92e5-2cb1950bbb7b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/d/4d34e66fa5737d3b5427b124d5620797f18114a5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/0/a060a900ec6ab5145bdf2ab63833ebf5e65457a2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/2/f2c1a1367ccb0067f44d27443f763165450ea2f5" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/0/40b1e0e2d831fe4f41a62b61d0af249efba260b5" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/3/836fe8fbef125a4892a87110528e33fa7b1a3f4a" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/4/0/40b1e0e2d831fe4f41a62b61d0af249efba260b5" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/8/3/836fe8fbef125a4892a87110528e33fa7b1a3f4a" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/UsersMicroApplicationTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/controller/UserControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/entity/UserTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/exceptions/ExistentUserExceptionTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/exceptions/NonExistentUserExceptionTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/model/CredentialsTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/model/UserDTOTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/model/UserResponseTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/repo/UserRepoTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/service/UserServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/4/d/4d34e66fa5737d3b5427b124d5620797f18114a5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/a/0/a060a900ec6ab5145bdf2ab63833ebf5e65457a2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/f/2/f2c1a1367ccb0067f44d27443f763165450ea2f5" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts-micro/src/main/java/com/bankapp/accountsmicro/controller/ApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/accounts-micro/src/main/java/com/bankapp/accountsmicro/controller/AccountController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts-micro/src/main/java/com/bankapp/accountsmicro/service/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/accounts-micro/src/main/java/com/bankapp/accountsmicro/service/AccountService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users-micro/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/users-micro/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts-micro/src/test/java/com/bankapp/accountsmicro/AccountsMicroApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-server/src/test/java/com/bankapp/eurekaserver/EurekaServerApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/users-micro/src/main/java/com/bankapp/usersmicro/controller/ApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/users-micro/src/main/java/com/bankapp/usersmicro/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/users-micro/src/main/java/com/bankapp/usersmicro/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/users-micro/src/main/java/com/bankapp/usersmicro/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/UsersMicroApplicationTests.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,10 +47,27 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;DavCed&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="4f51c9ae-0963-4e8a-bd5b-400529e64bd2" />
+        <option name="url" value="https://github.com/DavCed/bank-full-stack-web.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="2TIfAhr2O5JehXhduO7bmjaY4zb" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -48,12 +78,20 @@
     &quot;Notification.DoNotAsk-External System Auto-Link Notification Group&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Documents/Web-Development/bank-full-stack-web/backend-bank&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.UsersMicroApplication">
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.bankapp.usersmicro.controller" />
+      <recent name="com.bankapp.usersmicro" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.accountsmicro in accounts-micro">
     <configuration name="AccountsMicroApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <envs>
         <env name="API_ACCOUNTS" value="/api/accounts" />
@@ -71,11 +109,6 @@
           <option name="PATTERN" value="com.bankapp.accountsmicro.*" />
           <option name="ENABLED" value="true" />
         </pattern>
-      </extension>
-      <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
-        <option name="credential" />
-        <option name="region" />
-        <option name="useCurrentConnection" value="false" />
       </extension>
       <method v="2">
         <option name="Make" enabled="true" />
@@ -95,11 +128,6 @@
           <option name="PATTERN" value="com.bankapp.eurekaserver.*" />
           <option name="ENABLED" value="true" />
         </pattern>
-      </extension>
-      <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
-        <option name="credential" />
-        <option name="region" />
-        <option name="useCurrentConnection" value="false" />
       </extension>
       <method v="2">
         <option name="Make" enabled="true" />
@@ -123,11 +151,44 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
-        <option name="credential" />
-        <option name="region" />
-        <option name="useCurrentConnection" value="false" />
-      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="accountsmicro in accounts-micro" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="accounts-micro" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="directory" />
+      <envs>
+        <env name="API_ACCOUNTS" value="/api/accounts" />
+        <env name="WEB_HOST" value="http://localhost:4200" />
+        <env name="EUREKA_URL" value="http://localhost:8761/eureka" />
+        <env name="ACC_SERV_PORT" value="8186" />
+        <env name="BANK_JDBC_URL" value="jdbc:mysql://localhost:3306/bankapp" />
+        <env name="USERNAME" value="root" />
+        <env name="PASSWORD" value="thisismysql" />
+      </envs>
+      <dir value="$PROJECT_DIR$/accounts-micro/src/test/java/com/bankapp/accountsmicro" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="usersmicro in users-micro" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="users-micro" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="directory" />
+      <envs>
+        <env name="API_USERS" value="/api/users" />
+        <env name="WEB_HOST" value="http://localhost:4200" />
+        <env name="EUREKA_URL" value="http://localhost:8761/eureka" />
+        <env name="USER_SERV_PORT" value="8185" />
+        <env name="BANK_JDBC_URL" value="jdbc:mysql://localhost:3306/bankapp" />
+        <env name="USERNAME" value="root" />
+        <env name="PASSWORD" value="thisismysql" />
+      </envs>
+      <dir value="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -136,9 +197,13 @@
       <item itemvalue="Application.AccountsMicroApplication" />
       <item itemvalue="Application.EurekaServerApplication" />
       <item itemvalue="Application.UsersMicroApplication" />
+      <item itemvalue="JUnit.accountsmicro in accounts-micro" />
+      <item itemvalue="JUnit.usersmicro in users-micro" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.accountsmicro in accounts-micro" />
+        <item itemvalue="JUnit.usersmicro in users-micro" />
         <item itemvalue="Application.UsersMicroApplication" />
         <item itemvalue="Application.AccountsMicroApplication" />
         <item itemvalue="Application.EurekaServerApplication" />
@@ -155,5 +220,18 @@
       <updated>1690735377731</updated>
     </task>
     <servers />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/backend_bank$EurekaServerApplicationTest.ic" NAME="EurekaServerApplicationTest Coverage Results" MODIFIED="1691440376920" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.bankapp.eurekaserver.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/backend_bank$accountsmicro_in_accounts_micro.ic" NAME="accountsmicro in accounts-micro Coverage Results" MODIFIED="1691523595208" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/backend_bank$UserControllerTest.ic" NAME="UserControllerTest Coverage Results" MODIFIED="1691443195063" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.bankapp.usersmicro.controller.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/backend_bank$usersmicro_in_users_micro.ic" NAME="usersmicro in users-micro Coverage Results" MODIFIED="1691451743490" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/backend_bank$UsersMicroApplicationTest.ic" NAME="UsersMicroApplicationTest Coverage Results" MODIFIED="1691440454207" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.bankapp.usersmicro.*</FILTER>
+    </SUITE>
   </component>
 </project>
