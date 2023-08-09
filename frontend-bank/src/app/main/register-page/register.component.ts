@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from 'src/app/service/user.service';
 import { Router } from '@angular/router';
+import { UserTypes } from '../../enum/user-types.enum';
 
 @Component({
   selector: 'app-register',
@@ -12,11 +13,11 @@ export class RegisterComponent {
   public registerForm: FormGroup;
   public registerBtn: string = 'Sign Up';
   public loginBtn: string = 'Back to Login';
-  public message: string = '';
-  private isSuccess: boolean = false;
+  public message!: string;
+  private isSuccess!: boolean;
   public userTypes = [
-    { value: 'E', viewValue: 'Employee' },
-    { value: 'C', viewValue: 'Customer' },
+    { value: 'E', viewValue: UserTypes.E },
+    { value: 'C', viewValue: UserTypes.C },
   ];
 
   constructor(private userService: UserService, private router: Router) {
@@ -60,16 +61,14 @@ export class RegisterComponent {
 
   attemptToSignUp() {
     if (this.registerForm.valid) {
-      this.userService.saveUser(this.registerForm.value).subscribe(
+      this.userService.saveUser$(this.registerForm.value).subscribe(
         (user) => {
           this.message = user.message;
           this.isSuccess = true;
-          setTimeout(() => {
-            this.message = '';
-          }, 2000);
         },
         (errorResponse) => {
           this.message = errorResponse.error.message;
+          this.isSuccess = false;
           this.registerForm.reset();
         },
         () => this.goToLoginPage()

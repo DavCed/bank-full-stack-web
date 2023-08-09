@@ -1,9 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { AccountResponse } from 'src/app/model/account.interface';
+import { UserResponse } from 'src/app/model/user.interface';
 import { AccountService } from 'src/app/service/account.service';
 import { UserService } from 'src/app/service/user.service';
+import { AccountTypes } from '../../enum/account-types.enum';
+import { FormTypes } from '../../enum/form-types.enum';
+import { HeaderTypes } from '../../enum/header-types.enum';
+import { StatusTypes } from '../../enum/status-types.enum';
+import { TransactionTypes } from '../../enum/transaction-types.enum';
 
 @Component({
   selector: 'app-customer-show',
@@ -11,43 +18,39 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./customer-show.component.scss'],
 })
 export class CustomerShowComponent implements OnInit {
-  private customerLoggedIn: any;
-  public showTransactionForm: boolean = false;
-  public showRegisterForm: boolean = false;
-  private customerId: string | null = '';
+  private customerId!: BehaviorSubject<string | null>;
+  public customerLoggedIn!: BehaviorSubject<UserResponse>;
+  public showTransactionForm!: boolean;
+  public showRegisterForm!: boolean;
+
+  public readonly headers = HeaderTypes;
 
   public accountForm: FormGroup;
-  public accountMessage: string = '';
-  public registerAccountTypes = [
-    { value: 'C', viewValue: 'Checking' },
-    { value: 'S', viewValue: 'Savings' },
+  public accountMessage!: string;
+  public registerAccountTypes: { value: string; viewValue: AccountTypes }[] = [
+    { value: 'C', viewValue: AccountTypes.C },
+    { value: 'S', viewValue: AccountTypes.S },
   ];
 
   public transactionForm: FormGroup;
-  public transactionMessage: string = '';
-  public transactionTypes = [
-    { value: 'W', viewValue: 'Withdraw' },
-    { value: 'D', viewValue: 'Deposit' },
+  public transactionMessage!: string;
+  public transactionTypes: { value: string; viewValue: TransactionTypes }[] = [
+    { value: 'W', viewValue: TransactionTypes.W },
+    { value: 'D', viewValue: TransactionTypes.D },
   ];
-  public transactionAccountTypes = [
-    { value: 'C', viewValue: 'Checking' },
-    { value: 'S', viewValue: 'Savings' },
-  ];
+  public transactionAccountTypes: { value: string; viewValue: AccountTypes }[] =
+    [
+      { value: 'C', viewValue: AccountTypes.C },
+      { value: 'S', viewValue: AccountTypes.S },
+    ];
 
-  public dataSourceApprovedAccounts: AccountResponse[] = [];
-  public dataSourcePendingAccounts: AccountResponse[] = [];
-  public dataHeaders1: string[] = [
-    'Account Type',
-    'Account Number',
-    'Routing Number',
-    'Balance',
-  ];
-  public dataHeaders2: string[] = [
-    'Account Type',
-    'Account Number',
-    'Routing Number',
-    'Balance',
-    'Account Status',
+  public dataSourceAccounts: AccountResponse[] = [];
+  public dataHeaders: HeaderTypes[] = [
+    HeaderTypes.AT,
+    HeaderTypes.AN,
+    HeaderTypes.RN,
+    HeaderTypes.BA,
+    HeaderTypes.AS,
   ];
 
   constructor(
@@ -56,37 +59,39 @@ export class CustomerShowComponent implements OnInit {
     private userService: UserService
   ) {
     this.activeRoute.paramMap.subscribe(
-      (param) => (this.customerId = param.get('id'))
+      (param) =>
+        (this.customerId = new BehaviorSubject<string | null>(param.get('id')))
     );
     this.accountForm = this.generateAccountForm();
     this.transactionForm = this.generateTransactionForm();
   }
 
   ngOnInit(): void {
-    this.userService.fetchUserById(this.customerId).subscribe((customer) => {
-      this.customerLoggedIn = customer;
-      this.accountService
-        .fetchBankAccountsByUserId(this.customerId)
-        .subscribe((accounts) => {
-          accounts.forEach((account) => this.setBankAccount(account));
-          this.dataSourceApprovedAccounts = accounts.filter(
-            (account) => account.accountStatus === 'Approved'
-          );
-          this.dataSourcePendingAccounts = accounts.filter(
-            (account) => account.accountStatus === 'Pending'
-          );
-          this.checkBankAccounts(
-            this.dataSourceApprovedAccounts,
-            this.dataSourcePendingAccounts
-          );
-        });
-    });
+    this.userService
+      .fetchUserById$(this.customerId.value)
+      .subscribe((customer) => {
+        this.customerLoggedIn = new BehaviorSubject<UserResponse>(customer);
+        this.accountService
+          .fetchBankAccountsByUserId$(this.customerId.value)
+          .subscribe((accounts) => {
+            accounts.map((account) => this.setBankAccount(account));
+            this.dataSourceAccounts = accounts;
+            this.checkBankAccounts(
+              this.dataSourceAccounts.filter(
+                (account) => account.accountStatus === StatusTypes.A
+              ),
+              this.dataSourceAccounts.filter(
+                (account) => account.accountStatus === StatusTypes.P
+              )
+            );
+          });
+      });
   }
 
   generateAccountForm() {
     return new FormGroup({
       accountId: new FormControl(null),
-      userId: new FormControl(this.customerId),
+      userId: new FormControl(this.customerId.value),
       balance: new FormControl(null, Validators.required),
       accountNumber: new FormControl(null),
       routingNumber: new FormControl(null),
@@ -104,11 +109,11 @@ export class CustomerShowComponent implements OnInit {
   }
 
   setBankAccount(account: AccountResponse) {
-    if (account.accountStatus === 'Approved') {
-      if (account.accountType === 'Checking')
-        this.customerLoggedIn.checkingAccount = account;
-      else if (account.accountType === 'Savings')
-        this.customerLoggedIn.savingsAccount = account;
+    if (account.accountStatus === StatusTypes.A) {
+      if (account.accountType === AccountTypes.C)
+        this.customerLoggedIn.value.checkingAccount = account;
+      else if (account.accountType === AccountTypes.S)
+        this.customerLoggedIn.value.savingsAccount = account;
     }
   }
 
@@ -121,7 +126,7 @@ export class CustomerShowComponent implements OnInit {
       if (approvedAccounts.length === 1)
         this.transactionAccountTypes = this.setAccountTypes(
           approvedAccounts,
-          'Transaction'
+          FormTypes.T
         );
     }
     if (
@@ -132,7 +137,7 @@ export class CustomerShowComponent implements OnInit {
         this.showRegisterForm = true;
         this.registerAccountTypes = this.setAccountTypes(
           approvedAccounts,
-          'Register'
+          FormTypes.R
         );
       } else if (
         pendingAccounts.length === 1 &&
@@ -141,7 +146,7 @@ export class CustomerShowComponent implements OnInit {
         this.showRegisterForm = true;
         this.registerAccountTypes = this.setAccountTypes(
           pendingAccounts,
-          'Register'
+          FormTypes.R
         );
       } else if (pendingAccounts.length === 0 && approvedAccounts.length === 0)
         this.showRegisterForm = true;
@@ -149,32 +154,34 @@ export class CustomerShowComponent implements OnInit {
   }
 
   setAccountTypes(accounts: AccountResponse[], formType: string) {
-    return formType === 'Transaction'
+    return formType === FormTypes.T
       ? [
-          accounts[0].accountType === 'Checking'
-            ? { value: 'C', viewValue: 'Checking' }
-            : { value: 'S', viewValue: 'Savings' },
+          accounts[0].accountType === AccountTypes.C
+            ? { value: 'C', viewValue: AccountTypes.C }
+            : { value: 'S', viewValue: AccountTypes.S },
         ]
       : [
-          accounts[0].accountType === 'Savings'
-            ? { value: 'C', viewValue: 'Checking' }
-            : { value: 'S', viewValue: 'Savings' },
+          accounts[0].accountType === AccountTypes.S
+            ? { value: 'C', viewValue: AccountTypes.C }
+            : { value: 'S', viewValue: AccountTypes.S },
         ];
   }
 
   submitBankAccount() {
     if (this.accountForm.valid) {
-      this.accountService.saveBankAccount(this.accountForm.value).subscribe(
-        (account) => (this.accountMessage = account.message),
+      this.accountService.saveBankAccount$(this.accountForm.value).subscribe(
+        (account) => {
+          this.accountMessage = account.message;
+        },
         (errorResponse) => {
           this.accountMessage = errorResponse.error.message;
           this.accountForm.reset();
         },
         () => {
-          setTimeout(() => {
-            this.accountMessage = '';
-            window.location.reload();
-          }, 2000);
+          if (this.dataSourceAccounts.length >= 1)
+            this.showRegisterForm = false;
+          this.ngOnInit();
+          this.accountForm.reset();
         }
       );
     } else this.accountMessage = 'Please enter account details to register....';
@@ -184,25 +191,23 @@ export class CustomerShowComponent implements OnInit {
     if (this.transactionForm.valid) {
       this.transactionForm.controls['accountNumber'].setValue(
         this.transactionForm.controls['accountNumber'].value === 'C'
-          ? this.customerLoggedIn.checkingAccount.accountNumber
-          : this.customerLoggedIn.savingsAccount.accountNumber
+          ? this.customerLoggedIn.value.checkingAccount.accountNumber
+          : this.customerLoggedIn.value.savingsAccount.accountNumber
       );
       this.accountService
-        .updateBankAccountBalance(this.transactionForm.value)
+        .updateBankAccountBalance$(this.transactionForm.value)
         .subscribe(
           (account) => {
-            this.setBankAccount(account);
             this.transactionMessage = account.message;
+            this.setBankAccount(account);
           },
           (errorResponse) => {
             this.transactionMessage = errorResponse.error.message;
             this.transactionForm.reset();
           },
           () => {
-            setTimeout(() => {
-              this.transactionMessage = '';
-              window.location.reload();
-            }, 2000);
+            this.ngOnInit();
+            this.transactionForm.reset();
           }
         );
     } else

@@ -5,32 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cae386ed-837d-4439-92e5-2cb1950bbb7b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/0/40b1e0e2d831fe4f41a62b61d0af249efba260b5" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/3/836fe8fbef125a4892a87110528e33fa7b1a3f4a" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/4/0/40b1e0e2d831fe4f41a62b61d0af249efba260b5" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/8/3/836fe8fbef125a4892a87110528e33fa7b1a3f4a" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/UsersMicroApplicationTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/controller/UserControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/entity/UserTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/exceptions/ExistentUserExceptionTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/exceptions/NonExistentUserExceptionTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/model/CredentialsTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/model/UserDTOTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/model/UserResponseTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/repo/UserRepoTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/service/UserServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/0/40b1e0e2d831fe4f41a62b61d0af249efba260b5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/3/836fe8fbef125a4892a87110528e33fa7b1a3f4a" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/0/904f14804d04b56bf4d148e389f5984d863dfab2" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/4/0/40b1e0e2d831fe4f41a62b61d0af249efba260b5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/8/3/836fe8fbef125a4892a87110528e33fa7b1a3f4a" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/9/0/904f14804d04b56bf4d148e389f5984d863dfab2" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts-micro/src/main/java/com/bankapp/accountsmicro/controller/ApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/accounts-micro/src/main/java/com/bankapp/accountsmicro/controller/AccountController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts-micro/src/main/java/com/bankapp/accountsmicro/service/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/accounts-micro/src/main/java/com/bankapp/accountsmicro/service/AccountService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts-micro/src/test/java/com/bankapp/accountsmicro/AccountsMicroApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-server/src/test/java/com/bankapp/eurekaserver/EurekaServerApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/users-micro/src/main/java/com/bankapp/usersmicro/controller/ApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/users-micro/src/main/java/com/bankapp/usersmicro/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users-micro/src/main/java/com/bankapp/usersmicro/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/users-micro/src/main/java/com/bankapp/usersmicro/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users-micro/src/test/java/com/bankapp/usersmicro/UsersMicroApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-bank/karma.conf.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-bank/karma.conf.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-bank/src/app/main/customer-show/customer-show.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-bank/src/app/main/customer-show/customer-show.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-bank/src/app/main/customer-show/customer-show.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-bank/src/app/main/customer-show/customer-show.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-bank/src/app/main/employee-show/employee-show.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-bank/src/app/main/employee-show/employee-show.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-bank/src/app/model/user.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-bank/src/app/model/user.interface.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +79,7 @@
       <recent name="com.bankapp.usersmicro" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.accountsmicro in accounts-micro">
+  <component name="RunManager" selected="Application.AccountsMicroApplication">
     <configuration name="AccountsMicroApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <envs>
         <env name="API_ACCOUNTS" value="/api/accounts" />
@@ -109,6 +97,11 @@
           <option name="PATTERN" value="com.bankapp.accountsmicro.*" />
           <option name="ENABLED" value="true" />
         </pattern>
+      </extension>
+      <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+        <option name="credential" />
+        <option name="region" />
+        <option name="useCurrentConnection" value="false" />
       </extension>
       <method v="2">
         <option name="Make" enabled="true" />
@@ -128,6 +121,11 @@
           <option name="PATTERN" value="com.bankapp.eurekaserver.*" />
           <option name="ENABLED" value="true" />
         </pattern>
+      </extension>
+      <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+        <option name="credential" />
+        <option name="region" />
+        <option name="useCurrentConnection" value="false" />
       </extension>
       <method v="2">
         <option name="Make" enabled="true" />
@@ -150,6 +148,11 @@
           <option name="PATTERN" value="com.bankapp.usersmicro.*" />
           <option name="ENABLED" value="true" />
         </pattern>
+      </extension>
+      <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+        <option name="credential" />
+        <option name="region" />
+        <option name="useCurrentConnection" value="false" />
       </extension>
       <method v="2">
         <option name="Make" enabled="true" />
@@ -202,11 +205,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.AccountsMicroApplication" />
+        <item itemvalue="Application.UsersMicroApplication" />
+        <item itemvalue="Application.EurekaServerApplication" />
         <item itemvalue="JUnit.accountsmicro in accounts-micro" />
         <item itemvalue="JUnit.usersmicro in users-micro" />
-        <item itemvalue="Application.UsersMicroApplication" />
-        <item itemvalue="Application.AccountsMicroApplication" />
-        <item itemvalue="Application.EurekaServerApplication" />
       </list>
     </recent_temporary>
   </component>

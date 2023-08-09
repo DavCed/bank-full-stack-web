@@ -14,40 +14,41 @@ import {
 export class AccountService {
   constructor(private http: HttpClient) {}
 
-  saveBankAccount(account: Account): Observable<AccountResponse> {
-    return this.http.post<AccountResponse>(
-      `${environment.accountsApiUrl}/addBankAccount`,
-      account
+  public saveBankAccount$ = (account: Account) =>
+    <Observable<AccountResponse>>(
+      this.http.post<AccountResponse>(
+        `${environment.accountsApiUrl}/addBankAccount`,
+        account
+      )
     );
-  }
 
-  fetchBankAccountsByUserId(
-    userId: string | null
-  ): Observable<AccountResponse[]> {
-    return this.http.get<AccountResponse[]>(
-      `${environment.accountsApiUrl}/getBankAccounts/${userId}`
+  public fetchBankAccountsByUserId$ = (userId: string | null) =>
+    <Observable<AccountResponse[]>>(
+      this.http.get<AccountResponse[]>(
+        `${environment.accountsApiUrl}/getBankAccounts/${userId}`
+      )
     );
-  }
 
-  fetchAllBankAccounts(): Observable<AccountResponse[]> {
-    return this.http.get<AccountResponse[]>(
-      `${environment.accountsApiUrl}/getAllBankAccounts`
+  public fetchAllBankAccounts$ = () =>
+    <Observable<AccountResponse[]>>(
+      this.http.get<AccountResponse[]>(
+        `${environment.accountsApiUrl}/getAllBankAccounts`
+      )
     );
-  }
 
-  updateBankAccountBalance(
-    transaction: Transaction
-  ): Observable<AccountResponse> {
-    return this.http.put<AccountResponse>(
-      `${environment.accountsApiUrl}/editBankAccountBalance`,
-      transaction
+  public updateBankAccountBalance$ = (transaction: Transaction) =>
+    <Observable<AccountResponse>>(
+      this.http.put<AccountResponse>(
+        `${environment.accountsApiUrl}/editBankAccountBalance`,
+        transaction
+      )
     );
-  }
 
-  updateBankAccountStatus(account: Account): Observable<AccountResponse> {
-    return this.http.put<AccountResponse>(
-      `${environment.accountsApiUrl}/editBankAccountStatus`,
-      account
+  public updateBankAccountStatus$ = (account: Account) =>
+    <Observable<AccountResponse>>(
+      this.http.put<AccountResponse>(
+        `${environment.accountsApiUrl}/editBankAccountStatus`,
+        account
+      )
     );
-  }
 }

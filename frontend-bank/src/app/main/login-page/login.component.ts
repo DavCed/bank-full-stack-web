@@ -12,8 +12,8 @@ export class LoginComponent {
   public loginForm: FormGroup;
   public loginBtn: string = 'Login';
   public registerBtn: string = 'Sign up';
-  public message: string = '';
-  private isSuccess: boolean = false;
+  public message!: string;
+  private isSuccess!: boolean;
 
   constructor(private userService: UserService, private router: Router) {
     this.loginForm = this.generateLoginForm();
@@ -43,17 +43,18 @@ export class LoginComponent {
 
   attemptToLogin() {
     if (this.loginForm.valid) {
-      this.userService.validateUser(this.loginForm.value).subscribe(
+      this.userService.validateUser$(this.loginForm.value).subscribe(
         (user) => {
           this.message = user.message;
           this.isSuccess = true;
           setTimeout(
             () => this.router.navigate([`landing-page/${user.userId}`]),
-            2000
+            1000
           );
         },
         (errorResponse) => {
           this.message = errorResponse.error.message;
+          this.isSuccess = false;
           this.loginForm.reset();
         }
       );

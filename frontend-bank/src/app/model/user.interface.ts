@@ -21,6 +21,6 @@ export interface UserResponse {
   email: string;
   message: string;
   userType: string;
-  checkingAccount?: AccountResponse;
-  savingsAccount?: AccountResponse;
+  checkingAccount: AccountResponse;
+  savingsAccount: AccountResponse;
 }
