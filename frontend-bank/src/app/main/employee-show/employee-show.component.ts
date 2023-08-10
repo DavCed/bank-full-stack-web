@@ -7,6 +7,7 @@ import { UserService } from 'src/app/service/user.service';
 import { AccountTypes } from '../../enum/account-types.enum';
 import { HeaderTypes } from '../../enum/header-types.enum';
 import { StatusTypes } from '../../enum/status-types.enum';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-employee-show',
@@ -33,7 +34,8 @@ export class EmployeeShowComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private notifier: NotifierService
   ) {
     this.actionForm = this.generateActionForm();
   }
@@ -90,8 +92,13 @@ export class EmployeeShowComponent implements OnInit {
         (account) => {
           if (statusType === StatusTypes.A)
             this.setBankAccountToCustomer(account, customer);
+          this.notifier.notify(
+            statusType === StatusTypes.D ? 'warning' : 'success',
+            account.message
+          );
         },
-        (errorResponse) => console.log(errorResponse),
+        (errorResponse) =>
+          this.notifier.notify('error', errorResponse.error.message),
         () => {
           this.customerCheckingAccounts = [];
           this.customerSavingsAccounts = [];

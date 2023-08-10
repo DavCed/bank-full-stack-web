@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../service/user.service';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-login',
@@ -9,13 +10,16 @@ import { UserService } from '../../service/user.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
+  public userId!: number;
   public loginForm: FormGroup;
   public loginBtn: string = 'Login';
   public registerBtn: string = 'Sign up';
-  public message!: string;
-  private isSuccess!: boolean;
 
-  constructor(private userService: UserService, private router: Router) {
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private notifierService: NotifierService
+  ) {
     this.loginForm = this.generateLoginForm();
   }
 
@@ -37,27 +41,23 @@ export class LoginComponent {
     this.router.navigate(['register']);
   }
 
-  showSuccessOrError(): string {
-    return this.isSuccess ? 'green' : 'red';
-  }
-
   attemptToLogin() {
     if (this.loginForm.valid) {
       this.userService.validateUser$(this.loginForm.value).subscribe(
         (user) => {
-          this.message = user.message;
-          this.isSuccess = true;
-          setTimeout(
-            () => this.router.navigate([`landing-page/${user.userId}`]),
-            1000
-          );
+          this.notifierService.notify('success', user.message);
+          this.userId = user.userId;
         },
         (errorResponse) => {
-          this.message = errorResponse.error.message;
-          this.isSuccess = false;
+          this.notifierService.notify('error', errorResponse.error.message);
           this.loginForm.reset();
-        }
+        },
+        () => this.router.navigate([`landing-page/${this.userId}`])
       );
-    } else this.message = 'Please enter credentials to log in....';
+    } else
+      this.notifierService.notify(
+        'warning',
+        'Please enter credentials to log in....'
+      );
   }
 }

@@ -61,6 +61,8 @@ Kusers-micro/src/test/java/com/bankapp/usersmicro/model/CredentialsTest.java,1\
 Zusers-micro/src/test/java/com/bankapp/usersmicro/exceptions/ExistentUserExceptionTest.java,b\1\b17a45886580d3fe43b044d27b0808e5661d9fa3
 x
 Husers-micro/src/main/java/com/bankapp/usersmicro/model/UserResponse.java,c\b\cb29f770eda1f45ae004b318260826da2ff6af61
+y
+Iusers-micro/src/main/java/com/bankapp/usersmicro/service/UserService.java,9\0\904f14804d04b56bf4d148e389f5984d863dfab2
 q
 Ausers-micro/src/main/java/com/bankapp/usersmicro/entity/User.java,f\c\fc870f22d799e1c20a604e98d41b606391fb01aa
 u

@@ -61,6 +61,8 @@ Kusers-micro/src/test/java/com/bankapp/usersmicro/model/CredentialsTest.java,1\
 Zusers-micro/src/test/java/com/bankapp/usersmicro/exceptions/ExistentUserExceptionTest.java,b\1\b17a45886580d3fe43b044d27b0808e5661d9fa3
 x
 Husers-micro/src/main/java/com/bankapp/usersmicro/model/UserResponse.java,c\b\cb29f770eda1f45ae004b318260826da2ff6af61
+y
+Iusers-micro/src/main/java/com/bankapp/usersmicro/service/UserService.java,9\0\904f14804d04b56bf4d148e389f5984d863dfab2
 q
 Ausers-micro/src/main/java/com/bankapp/usersmicro/entity/User.java,f\c\fc870f22d799e1c20a604e98d41b606391fb01aa
 u
@@ -71,6 +73,8 @@ Ousers-micro/src/test/java/com/bankapp/usersmicro/UsersMicroApplicationTest.java
 Ousers-micro/src/main/java/com/bankapp/usersmicro/controller/UserController.java,7\6\760cd4faf6ff8f8a7eca32ee581b9b1ec539c808
 s
 Cusers-micro/src/main/java/com/bankapp/usersmicro/repo/UserRepo.java,f\1\f1e1edfb34c83747fdea271c1ac55df014305031
+‚
+Raccounts-micro/src/main/java/com/bankapp/accountsmicro/service/AccountService.java,1\f\1f000a812f635cc3601fbaaf24015051a6bcd570
 w
 Gusers-micro/src/main/java/com/bankapp/usersmicro/model/Credentials.java,a\0\a060a900ec6ab5145bdf2ab63833ebf5e65457a2
 ˆ
@@ -107,5 +111,3 @@ Naccounts-micro/src/test/java/com/bankapp/accountsmicro/entity/AccountTest.java
 \accounts-micro/src/test/java/com/bankapp/accountsmicro/controller/AccountControllerTest.java,1\1\11889ff597fb730090191fb7728039dcb0684d2f
 >
 .gitattributes,2\4\24139dae656713ba861751fb2c2ac38839349a7a
-‚
-Raccounts-micro/src/main/java/com/bankapp/accountsmicro/service/AccountService.java,1\f\1f000a812f635cc3601fbaaf24015051a6bcd570

@@ -95,9 +95,20 @@ public class AccountService {
             throw new InvalidTransactionException("Cannot make transaction of zero or negative amount....");
         else if (transaction.transactionType() == 'W' && transaction.amount() > accountDB.getBalance())
             throw new InvalidTransactionException("Cannot withdraw more than current balance....");
-        accountDB.setBalance(transaction.transactionType() == 'W'
-                ? accountDB.getBalance() - transaction.amount()
-                : accountDB.getBalance() + transaction.amount());
+        if(transaction.transactionType() == 'T'){
+            Account accountDB2 = accountRepo.findAllByUserId(accountDB.getUserId()).get()
+                    .stream()
+                    .filter(account -> !account.getAccountNumber().equals(accountDB.getAccountNumber()))
+                    .findFirst()
+                    .orElseThrow(() -> new InvalidAccountException("No secondary bank account...."));
+            accountDB.setBalance(accountDB.getBalance() - transaction.amount());
+            accountDB2.setBalance(accountDB2.getBalance() + transaction.amount());
+            accountRepo.save(accountDB2);
+        } else {
+            accountDB.setBalance(transaction.transactionType() == 'W'
+                    ? accountDB.getBalance() - transaction.amount()
+                    : accountDB.getBalance() + transaction.amount());
+        }
         accountRepo.saveAndFlush(accountDB);
         return AccountResponse.builder()
                 .userId(accountDB.getUserId())

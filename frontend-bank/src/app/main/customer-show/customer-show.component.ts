@@ -11,6 +11,7 @@ import { FormTypes } from '../../enum/form-types.enum';
 import { HeaderTypes } from '../../enum/header-types.enum';
 import { StatusTypes } from '../../enum/status-types.enum';
 import { TransactionTypes } from '../../enum/transaction-types.enum';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-customer-show',
@@ -18,8 +19,8 @@ import { TransactionTypes } from '../../enum/transaction-types.enum';
   styleUrls: ['./customer-show.component.scss'],
 })
 export class CustomerShowComponent implements OnInit {
-  private customerId!: BehaviorSubject<string | null>;
   public customerLoggedIn!: BehaviorSubject<UserResponse>;
+  private customerId!: string | null;
   public showTransactionForm!: boolean;
   public showRegisterForm!: boolean;
 
@@ -37,6 +38,7 @@ export class CustomerShowComponent implements OnInit {
   public transactionTypes: { value: string; viewValue: TransactionTypes }[] = [
     { value: 'W', viewValue: TransactionTypes.W },
     { value: 'D', viewValue: TransactionTypes.D },
+    { value: 'T', viewValue: TransactionTypes.T },
   ];
   public transactionAccountTypes: { value: string; viewValue: AccountTypes }[] =
     [
@@ -56,42 +58,40 @@ export class CustomerShowComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private activeRoute: ActivatedRoute,
-    private userService: UserService
+    private userService: UserService,
+    private notifier: NotifierService
   ) {
     this.activeRoute.paramMap.subscribe(
-      (param) =>
-        (this.customerId = new BehaviorSubject<string | null>(param.get('id')))
+      (param) => (this.customerId = param.get('id'))
     );
     this.accountForm = this.generateAccountForm();
     this.transactionForm = this.generateTransactionForm();
   }
 
   ngOnInit(): void {
-    this.userService
-      .fetchUserById$(this.customerId.value)
-      .subscribe((customer) => {
-        this.customerLoggedIn = new BehaviorSubject<UserResponse>(customer);
-        this.accountService
-          .fetchBankAccountsByUserId$(this.customerId.value)
-          .subscribe((accounts) => {
-            accounts.map((account) => this.setBankAccount(account));
-            this.dataSourceAccounts = accounts;
-            this.checkBankAccounts(
-              this.dataSourceAccounts.filter(
-                (account) => account.accountStatus === StatusTypes.A
-              ),
-              this.dataSourceAccounts.filter(
-                (account) => account.accountStatus === StatusTypes.P
-              )
-            );
-          });
-      });
+    this.userService.fetchUserById$(this.customerId).subscribe((customer) => {
+      this.customerLoggedIn = new BehaviorSubject<UserResponse>(customer);
+      this.accountService
+        .fetchBankAccountsByUserId$(this.customerId)
+        .subscribe((accounts) => {
+          accounts.map((account) => this.setBankAccount(account));
+          this.dataSourceAccounts = accounts;
+          this.checkBankAccounts(
+            this.dataSourceAccounts.filter(
+              (account) => account.accountStatus === StatusTypes.A
+            ),
+            this.dataSourceAccounts.filter(
+              (account) => account.accountStatus === StatusTypes.P
+            )
+          );
+        });
+    });
   }
 
   generateAccountForm() {
     return new FormGroup({
       accountId: new FormControl(null),
-      userId: new FormControl(this.customerId.value),
+      userId: new FormControl(this.customerId),
       balance: new FormControl(null, Validators.required),
       accountNumber: new FormControl(null),
       routingNumber: new FormControl(null),
@@ -128,6 +128,7 @@ export class CustomerShowComponent implements OnInit {
           approvedAccounts,
           FormTypes.T
         );
+      this.transactionTypes = this.setTransactionTypes();
     }
     if (
       (pendingAccounts.length === 0 || pendingAccounts.length === 1) &&
@@ -153,6 +154,20 @@ export class CustomerShowComponent implements OnInit {
     }
   }
 
+  setTransactionTypes() {
+    return this.customerLoggedIn.value.checkingAccount !== undefined &&
+      this.customerLoggedIn.value.savingsAccount !== undefined
+      ? [
+          { value: 'W', viewValue: TransactionTypes.W },
+          { value: 'D', viewValue: TransactionTypes.D },
+          { value: 'T', viewValue: TransactionTypes.T },
+        ]
+      : [
+          { value: 'W', viewValue: TransactionTypes.W },
+          { value: 'D', viewValue: TransactionTypes.D },
+        ];
+  }
+
   setAccountTypes(accounts: AccountResponse[], formType: string) {
     return formType === FormTypes.T
       ? [
@@ -170,11 +185,9 @@ export class CustomerShowComponent implements OnInit {
   submitBankAccount() {
     if (this.accountForm.valid) {
       this.accountService.saveBankAccount$(this.accountForm.value).subscribe(
-        (account) => {
-          this.accountMessage = account.message;
-        },
+        (account) => this.notifier.notify('success', account.message),
         (errorResponse) => {
-          this.accountMessage = errorResponse.error.message;
+          this.notifier.notify('error', errorResponse.error.message);
           this.accountForm.reset();
         },
         () => {
@@ -184,7 +197,11 @@ export class CustomerShowComponent implements OnInit {
           this.accountForm.reset();
         }
       );
-    } else this.accountMessage = 'Please enter account details to register....';
+    } else
+      this.notifier.notify(
+        'warning',
+        'Please enter account details to register....'
+      );
   }
 
   submitBankTransaction() {
@@ -198,11 +215,11 @@ export class CustomerShowComponent implements OnInit {
         .updateBankAccountBalance$(this.transactionForm.value)
         .subscribe(
           (account) => {
-            this.transactionMessage = account.message;
+            this.notifier.notify('success', account.message);
             this.setBankAccount(account);
           },
           (errorResponse) => {
-            this.transactionMessage = errorResponse.error.message;
+            this.notifier.notify('error', errorResponse.error.message);
             this.transactionForm.reset();
           },
           () => {
@@ -211,6 +228,9 @@ export class CustomerShowComponent implements OnInit {
           }
         );
     } else
-      this.transactionMessage = 'Please enter transaction details to send....';
+      this.notifier.notify(
+        'warning',
+        'Please enter transaction details to send....'
+      );
   }
 }
