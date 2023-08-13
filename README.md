@@ -22,7 +22,7 @@ npm start
 ```
 
 ## Backend App
-**_NOTE:_** Microservice Archectiture
+**_NOTE:_** Microservice Architecture
 ### Installation
 1. Download and configure [Flyway](https://documentation.red-gate.com/fd/configuration-files-184127472.html)
 
